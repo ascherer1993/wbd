@@ -22,7 +22,7 @@ class Angle():
         #Below, the string parameter is checked to make sure that it matches very specific requirements
         #I then find all instances of those requirements in the string, and make sure it matches the original string.
         #If it does, the parameter is in the right format and can be used
-        regex = "^(-?[0-9]+d[0-9]+\.?[0-9]?)?"
+        regex = "^(-?[0-9]+d[0-9]+\.?[0-9]?)?" #    xdy.y  x is any positive or negative number that represents the degrees and the y's are the minutes
         regexMatch = re.findall(regex, angleString)
         
         #checks to make sure there is only one exact match
@@ -35,28 +35,34 @@ class Angle():
         #converts from minutes into decimal to store
         minuteInDecimal = float(newString[1])/60
         #stores one decimal place mod 360
-        self.angle = round((float(newString[0]) + minuteInDecimal) % 360, 1)
+        floatedDegrees = float(newString[0])
+        
+        #this handles negative degrees
+        if floatedDegrees < 0 :
+            self.angle = round((floatedDegrees - minuteInDecimal) % 360, 1)
+        else :    
+            self.angle = round((floatedDegrees + minuteInDecimal) % 360, 1)
         return self.angle
         
         pass
     
     def add(self, angle):
         if not isinstance(angle, Angle) :
-            return ValueError("Angle.add:  The parameter you have provided is not an instance of the Angle class.")
+            raise ValueError("Angle.add:  The parameter you have provided is not an instance of the Angle class.")
         self.angle = round((self.angle + angle.angle) % 360, 1)
         return self.angle
         pass
     
     def subtract(self, angle):
         if not isinstance(angle, Angle) :
-            return ValueError("Angle.subtract:  The parameter you have provided is not an instance of the Angle class.")
+            raise ValueError("Angle.subtract:  The parameter you have provided is not an instance of the Angle class.")
         self.angle = round((self.angle - angle.angle) % 360, 1)
         return self.angle
         pass
     
     def compare(self, angle):
         if not isinstance(angle, Angle) :
-            return ValueError("Angle.compare:  The parameter you have provided is not an instance of the Angle class.")
+            raise ValueError("Angle.compare:  The parameter you have provided is not an instance of the Angle class.")
         try :
             if self.angle < angle.angle :
                 return -1
@@ -65,14 +71,14 @@ class Angle():
             elif self.angle > angle.angle :
                 return 1
         except :
-            return ValueError("Angle.compare:  The two angles could not be compared")
+            raise ValueError("Angle.compare:  The two angles could not be compared")
         pass
     
     def getString(self):
         if isinstance(self.angle, int) :
             self.angle = float(self.angle)
         elif not isinstance(self.angle, float) :
-            return ValueError("Angle.getString:  The angle has not been stored properly in this object")
+            raise ValueError("Angle.getString:  The angle has not been stored properly in this object")
         
         degreesArray = str(self.angle).split('.')
             
@@ -86,7 +92,7 @@ class Angle():
         if isinstance(self.angle, int) :
             self.angle = float(self.angle)
         elif not isinstance(self.angle, float) :
-            return ValueError("Angle.getString:  The angle has not been stored properly in this object")
+            raise ValueError("Angle.getString:  The angle has not been stored properly in this object")
 
         return self.angle
         pass

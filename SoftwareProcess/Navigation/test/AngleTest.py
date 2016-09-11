@@ -48,8 +48,13 @@ class Test(unittest.TestCase):
         pass
  
     def test102_010_setDegreesAndMinutesSuccess(self):
+        #Type checking
+        self.assert_(isinstance(self.angleObject1.setDegreesAndMinutes("10d0.0"), float))
+        
+        #Value checking
         self.assert_(self.angleObject1.setDegreesAndMinutes("25d6.0") == 25.1, "Did not set angle correctly")
         self.assert_(self.angleObject1.setDegreesAndMinutes("0d0") == 0, "Did not set angle correctly")
+        self.assert_(self.angleObject1.setDegreesAndMinutes("-10d6") == 349.9, "Did not set angle correctly")
         pass
     
     def test102_020_setDegreesAndMinutesFail(self):
@@ -60,17 +65,30 @@ class Test(unittest.TestCase):
         pass
     
     def test103_010_addSuccess(self):
+        #Type checking
+        self.assert_(isinstance(self.angleObject1.add(self.angleObject2), float))
+        
+        #Resets for next test
+        self.angleObject1 = angle.Angle()
+        
+        #Value checking
         self.assert_(self.angleObject1.add(self.angleObject2) == 20, "Did not set angle correctly")
+        self.assert_(self.angleObject2.add(self.angleObject3) == 340, "Did not set angle correctly")
         pass
     
     def test103_010_addFail(self):
+        self.assertRaises(ValueError, self.angleObject1.add, 8)
+        self.assertRaises(ValueError, self.angleObject1.add, "test")
         pass
     
     def test104_010_subtractSuccess(self):
-        self.assert_(self.angleObject1.setDegrees(-15) == 345, "Did not set angle correctly")
+        self.assert_(self.angleObject1.subtract(self.angleObject2) == 340, "Did not set angle correctly")
+        
+        self.assert_(self.angleObject2.subtract(self.angleObject3) == 60, "Did not set angle correctly")
         pass
     
     def test104_020_subtractFail(self):
+        self.assert_(self.angleObject1.subtract(self.angleObject2) != -20, "Did not set angle correctly")
         pass
     
     def test105_010_getStringTestSuccess(self):
