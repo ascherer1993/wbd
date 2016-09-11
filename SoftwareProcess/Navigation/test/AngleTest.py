@@ -49,10 +49,14 @@ class Test(unittest.TestCase):
  
     def test102_010_setDegreesAndMinutesSuccess(self):
         self.assert_(self.angleObject1.setDegreesAndMinutes("25d6.0") == 25.1, "Did not set angle correctly")
+        self.assert_(self.angleObject1.setDegreesAndMinutes("0d0") == 0, "Did not set angle correctly")
         pass
     
     def test102_020_setDegreesAndMinutesFail(self):
         self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "25d10y")
+        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "25d")
+        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "2")
+        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "5.5d14")
         pass
     
     def test103_010_addSuccess(self):
@@ -60,7 +64,6 @@ class Test(unittest.TestCase):
         pass
     
     def test103_010_addFail(self):
-        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "25d10y")
         pass
     
     def test104_010_subtractSuccess(self):
@@ -68,7 +71,6 @@ class Test(unittest.TestCase):
         pass
     
     def test104_020_subtractFail(self):
-        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "25d10y")
         pass
     
     def test105_010_getStringTestSuccess(self):

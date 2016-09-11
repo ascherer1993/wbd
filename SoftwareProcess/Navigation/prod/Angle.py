@@ -16,35 +16,20 @@ class Angle():
     
     def setDegreesAndMinutes(self, angleString):
         
-        regex = "^(-?[0-9]+d[0-9]+\.[0-9])?"
-        test = re.findall(regex, angleString)
+        angleString = angleString.strip()
+        regex = "^(-?[0-9]+d[0-9]+\.?[0-9]?)?"
+        regexMatch = re.findall(regex, angleString)
+        if len(regexMatch) == 0 or len(regexMatch[0]) != len(angleString) :
+            raise ValueError("Angle.setDegreesAndMinutes:  The correct format was not provided. Please provid #d# or #d#.#")
         
+        newString = angleString.split('d')
         
-        
-        if 'd' in angleString:
-            newString = angleString.split("d")
-            if (len(newString) != 2 and not newString[1].isdigit()) :
-                raise ValueError("Angle.setDegreesAndMinutes:  The correct format was not provided. #d#.#")
-            
-            
-            minuteLength = len(newString[1])
-            
-            if '.' in newString[1] :
-                periodPosition = newString[1].index('.')
-                if periodPosition != minuteLength - 2 and periodPosition != -1 :
-                    raise ValueError("Angle.setDegreesAndMinutes:  The correct format was not provided. #d#.#")
-            else :
-                i = 1
-            
-            minuteInDecimal = float(newString[1])/60
-            self.angle = float(newString[0]) + minuteInDecimal
-        else :
-            return ValueError("Angle.setDegreesAndMinutes:  The correct format was not provided. #d#.#")
-        
+        minuteInDecimal = float(newString[1])/60
+        self.angle = (float(newString[0]) + minuteInDecimal) % 360
         return self.angle
-        # split on 'd', 45d10.1
-        #returns angle as degrees and portions of degrees as a single floating point number mod 360
-        #pass
+        
+            
+        pass
     
     def add(self, angle):
         if not isinstance(angle, Angle) :
