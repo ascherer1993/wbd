@@ -48,7 +48,7 @@ class Test(unittest.TestCase):
         pass
  
     def test102_010_setDegreesAndMinutesSuccess(self):
-        self.assertRaises(ValueError, self.angleObject1.setDegreesAndMinutes, "25d10y")
+        self.assert_(self.angleObject1.setDegreesAndMinutes("25d6.0") == 25.1, "Did not set angle correctly")
         pass
     
     def test102_020_setDegreesAndMinutesFail(self):

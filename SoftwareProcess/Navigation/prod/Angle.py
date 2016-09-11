@@ -1,4 +1,6 @@
 from test.test_typechecks import Integer
+import re
+
 class Angle():
     def __init__(self):
         self.angle = 0.0
@@ -14,8 +16,8 @@ class Angle():
     
     def setDegreesAndMinutes(self, angleString):
         
-        regex = "^[-0-9]+d[0-9]+\.[0-9]"
-        
+        regex = "^(-?[0-9]+d[0-9]+\.[0-9])?"
+        test = re.findall(regex, angleString)
         
         
         
