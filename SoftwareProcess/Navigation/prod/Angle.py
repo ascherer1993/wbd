@@ -1,4 +1,10 @@
-from test.test_typechecks import Integer
+'''
+    Created on 9/8/2016
+    Edited on: 9/10/2016, 9/11/2016
+
+    @author: Aaron Scherer
+'''
+
 import re
 
 class Angle():

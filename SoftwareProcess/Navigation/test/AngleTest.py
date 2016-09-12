@@ -1,11 +1,11 @@
 '''
-Created on Sep 11, 2016
+    Created on 9/10/2016
+    Edited on: 9/11/2016
 
-@author: Aaron
+    @author: Aaron Scherer
 '''
 import unittest
 import Navigation.prod.Angle as angle 
-from test.test_typechecks import Integer
 
 class Test(unittest.TestCase):
 
@@ -72,8 +72,8 @@ class Test(unittest.TestCase):
         self.angleObject1 = angle.Angle()
         
         #Value checking
-        self.assert_(self.angleObject1.add(self.angleObject2) == 20, "Did not set angle correctly")
-        self.assert_(self.angleObject2.add(self.angleObject3) == 340, "Did not set angle correctly")
+        self.assert_(self.angleObject1.add(self.angleObject2) == 20, "The two angles were not added correctly")
+        self.assert_(self.angleObject2.add(self.angleObject3) == 340, "The two angles were not added correctly")
         pass
     
     def test103_010_addFail(self):
@@ -82,60 +82,45 @@ class Test(unittest.TestCase):
         pass
     
     def test104_010_subtractSuccess(self):
-        self.assert_(self.angleObject1.subtract(self.angleObject2) == 340, "Did not set angle correctly")
+        self.assert_(self.angleObject1.subtract(self.angleObject2) == 340, "There was an error in the calculations")
         
-        self.assert_(self.angleObject2.subtract(self.angleObject3) == 60, "Did not set angle correctly")
+        self.assert_(self.angleObject2.subtract(self.angleObject3) == 60, "There was an error in the calculations")
         pass
     
     def test104_020_subtractFail(self):
-        self.assert_(self.angleObject1.subtract(self.angleObject2) != -20, "Did not set angle correctly")
+        self.assertRaises(ValueError, self.angleObject1.subtract, 8)
+        self.assertRaises(ValueError, self.angleObject1.subtract, "test")
         pass
     
     def test105_010_getStringTestSuccess(self):
-        self.assert_(self.angleObject1.setDegrees(-15) == 345, "Did not set angle correctly")
+        #Type checking
+        self.assert_(isinstance(self.angleObject1.getString(), str))
         
-        # Setting angle without using the method is for testing purposes, as those methods are checked elsewhere
-        self.angleObject1.angle = 25
-        self.assert_(self.angleObject1.getString() == "25d0.0", "Your method must be broken")
-        
-        self.angleObject1.angle = 25.8        
-        self.assert_(self.angleObject1.getString() == "25d48.0", "Your method must be broken")
+        #Value checking
+        self.assert_(self.angleObject1.getString() == "0d0.0", "Your method must be broken")
+           
+        self.assert_(self.angleObject2.getString() == "20d0.0", "Your method must be broken")
         
         pass
     def test105_020_getStringTestFail(self):
-        self.assert_(self.angleObject1.getString() == "0d0.0", "Your method must be broken")
-        
-        # Setting angle without using the method is for testing purposes, as those methods are checked elsewhere
-        self.angleObject1.angle = 25
-        self.assert_(self.angleObject1.getString() == "25d0.0", "Your method must be broken")
-        
-        self.angleObject1.angle = 25.8        
-        self.assert_(self.angleObject1.getString() == "25d48.0", "Your method must be broken")
+        #Couldn't think of any
         
         pass
 
     
     def test106_010_getDegreesTestSuccess(self):
-        self.assert_(self.angleObject1.setDegrees(-15) == 345, "Did not set angle correctly")
+        #Type checking
+        self.assert_(isinstance(self.angleObject1.getDegrees(), float))
         
-        # Setting angle without using the method is for testing purposes, as those methods are checked elsewhere        
-        self.angleObject1.angle = 25
-        self.assert_(self.angleObject1.getDegrees() == 25, "Your method must be broken")
+        #Value checking
+        self.assert_(self.angleObject1.getDegrees() == 0, "Your method must be broken")
         
-        self.angleObject1.angle = 25.8        
-        self.assert_(self.angleObject1.getDegrees() == 25.8, "Your method must be broken")
+        self.assert_(self.angleObject2.getDegrees() == 20, "Your method must be broken")
         
         pass
     
     def test106_020_getDegreesTestFail(self):
-        self.assert_(self.angleObject1.getDegrees() == 0, "Your method must be broken")
-        
-        # Setting angle without using the method is for testing purposes, as those methods are checked elsewhere        
-        self.angleObject1.angle = 25
-        self.assert_(self.angleObject1.getDegrees() == 25, "Your method must be broken")
-        
-        self.angleObject1.angle = 25.8        
-        self.assert_(self.angleObject1.getDegrees() == 25.8, "Your method must be broken")
+        #no good way to test these
         
         pass
 
