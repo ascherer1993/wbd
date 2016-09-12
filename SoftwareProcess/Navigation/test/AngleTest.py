@@ -49,7 +49,7 @@ class Test(unittest.TestCase):
         pass
     
     def test101_020_setDegreesFail(self):
-        # Type checking
+        self.assertRaises(ValueError, self.angleObject1.setDegrees, "")
         self.assertRaises(ValueError, self.angleObject1.setDegrees, "25")
 
         pass
