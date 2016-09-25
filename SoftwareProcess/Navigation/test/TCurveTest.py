@@ -242,7 +242,7 @@ class TCurveTest(unittest.TestCase):
 #
 #    Happy path analysis:    
 #        t:      nominal value    t=1.4398
-#                low bound        t>0.0
+#                low bound        t>0.0;  I will use 1
 #        n:      nominal value    n=4
 #                low bound        n=2
 #                high bound       n=29
@@ -260,3 +260,42 @@ class TCurveTest(unittest.TestCase):
 #                    high t, high n
 #     Sad path analysis:
 #        none. This is prevalidated
+
+#self.nominalN  = 4
+#self.nominalT = 1.4398
+    def test500_010_ShouldCalculateIntegralNominalTAndN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(self.nominalT, self.nominalN, x), .9949, 3)
+        
+    def test500_020_ShouldCalculateIntegralNominalTLowN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(self.nominalT, 2, x), .9949, 3)
+        
+    def test500_030_ShouldCalculateIntegralNominalTHighN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(self.nominalT, 29, x), .9949, 3)
+        
+    def test500_040_ShouldCalculateIntegralLowTNominalN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(1, self.nominalN, x), (1/3), 3)
+        
+    def test500_050_ShouldCalculateIntegralLowTLowN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(1, 2, x), (1/3), 3)
+        
+    def test500_060_ShouldCalculateIntegralLowTHighN(self):
+        myT = T.TCurve(self.nominalN)
+        def x(self, u, n):
+            return u^2
+        self.assertAlmostEquals(myT.integrate(1, 29, x), (1/3), 3)
+        
