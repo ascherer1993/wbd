@@ -268,36 +268,37 @@ class TCurveTest(unittest.TestCase):
     def test500_010_ShouldCalculateIntegralNominalTAndN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
+        # I calculated that the return would be close to .9949 by hand
         self.assertAlmostEquals(myT.integrate(self.nominalT, self.nominalN, x), .9949, 3)
         
     def test500_020_ShouldCalculateIntegralNominalTLowN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
         self.assertAlmostEquals(myT.integrate(self.nominalT, 2, x), .9949, 3)
         
     def test500_030_ShouldCalculateIntegralNominalTHighN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
         self.assertAlmostEquals(myT.integrate(self.nominalT, 29, x), .9949, 3)
         
     def test500_040_ShouldCalculateIntegralLowTNominalN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
         self.assertAlmostEquals(myT.integrate(1, self.nominalN, x), (1/3), 3)
         
     def test500_050_ShouldCalculateIntegralLowTLowN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
         self.assertAlmostEquals(myT.integrate(1, 2, x), (1/3), 3)
         
     def test500_060_ShouldCalculateIntegralLowTHighN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
-            return u^2
+            return u ** 2
         self.assertAlmostEquals(myT.integrate(1, 29, x), (1/3), 3)
         
