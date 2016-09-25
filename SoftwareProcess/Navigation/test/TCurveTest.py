@@ -230,3 +230,33 @@ class TCurveTest(unittest.TestCase):
         myT = T.TCurve(self.nominalN)
         self.assertAlmostEquals(myT.f(1, 5), 0.578703704)
         
+# 500 integrate
+# Analysis
+#     inputs
+#        t -> nominal value GT 0
+#        n -> numeric  mandatory validated
+#        f -> function
+#    outputs
+#        float .GE. 0 
+#
+#
+#    Happy path analysis:    
+#        t:      nominal value    t=1.4398
+#                low bound        t>0.0
+#        n:      nominal value    n=4
+#                low bound        n=2
+#                high bound       n=29
+#        f: function y = x^2
+#        output:
+#                The output is an interaction of upperbound t, and n degrees of freedom:
+#                    nominal t, nominal n
+#                    nominal t, low n
+#                    nominal t, high n
+#                    low t, nominal n
+#                    low t, low n
+#                    low t, high n
+#                    high t, nominal n
+#                    high t, low n
+#                    high t, high n
+#     Sad path analysis:
+#        none. This is prevalidated
