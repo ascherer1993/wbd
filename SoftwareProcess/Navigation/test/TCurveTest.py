@@ -288,17 +288,17 @@ class TCurveTest(unittest.TestCase):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
             return u ** 2
-        self.assertAlmostEquals(myT.integrate(1, self.nominalN, x), (1/3), 3)
+        self.assertAlmostEquals(myT.integrate(1, self.nominalN, x), (1.0/3), 3)
         
     def test500_050_ShouldCalculateIntegralLowTLowN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
             return u ** 2
-        self.assertAlmostEquals(myT.integrate(1, 2, x), (1/3), 3)
+        self.assertAlmostEquals(myT.integrate(1, 2, x), (1.0/3), 3)
         
     def test500_060_ShouldCalculateIntegralLowTHighN(self):
         myT = T.TCurve(self.nominalN)
         def x(u, n):
             return u ** 2
-        self.assertAlmostEquals(myT.integrate(1, 29, x), (1/3), 3)
+        self.assertAlmostEquals(myT.integrate(1, 29, x), (1.0/3), 3)
         
