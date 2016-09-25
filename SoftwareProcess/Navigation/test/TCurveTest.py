@@ -263,6 +263,8 @@ class TCurveTest(unittest.TestCase):
 
 #self.nominalN  = 4
 #self.nominalT = 1.4398
+# Values for future use
+
     def test500_010_ShouldCalculateIntegralNominalTAndN(self):
         myT = T.TCurve(self.nominalN)
         def x(self, u, n):

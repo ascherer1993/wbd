@@ -62,7 +62,26 @@ class TCurve(object):
         return result
     
     def integrate(self, t, n, f):
-        pass
+        lowBound = 0
+        highBound = t
+        epsilon = 0.001
+        simpsonOld = 0
+        simpsonNew = epsilon
+        slices = 4
+        while (abs(simpsonNew - simpsonOld) / simpsonNew > epsilon) :
+            simpsonOld = simpsonNew
+            w = (highBound - lowBound) / slices
+            simpsonNew = (w / 3)
+            functionTotal = f(lowBound, n)
+            for i in xrange(slices - 1):
+                if i % 2 == 0:
+                    functionTotal += 4 * f(lowBound + i * w, n)
+                else:
+                    functionTotal += 2 * f(lowBound + i * w, n)
+            functionTotal += f(lowBound, n)
+            slices *= 2
+            simpsonNew *= functionTotal
+        return simpsonNew
         
         
     
