@@ -68,17 +68,18 @@ class TCurve(object):
         simpsonOld = 0
         simpsonNew = epsilon
         slices = 4
-        hello = f
+        # This while lasts until simpsonNew contains a value with an accuracy that is at least that of epsilon
         while (abs(simpsonNew - simpsonOld) / simpsonNew > epsilon) :
             simpsonOld = simpsonNew
             w = (highBound - lowBound) / slices
             simpsonNew = (w / 3)
+            # this next part constructs the function the way described in the pseudo code
             functionTotal = f(lowBound, n)
             for i in xrange(slices - 1):
                 if i % 2 == 0:
-                    functionTotal += 4 * f(lowBound + i * w, n)
+                    functionTotal += 4 * f(lowBound + (i + 1) * w, n)
                 else:
-                    functionTotal += 2 * f(lowBound + i * w, n)
+                    functionTotal += 2 * f(lowBound + (i + 1) * w, n)
             functionTotal += f(highBound, n)
             slices *= 2
             simpsonNew *= functionTotal
