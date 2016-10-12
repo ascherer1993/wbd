@@ -14,13 +14,17 @@ class Angle():
         pass
     
     # Sets angle of Angle object using a float or integer sent to the method
-    def setDegrees(self, degrees):
+    def setDegrees(self, degrees = None):
+        if degrees == None:
+            degrees = 0.0
         # Raises error if the parameter is of the wrong type
         if not isinstance(degrees, float) and not isinstance(degrees, int) :
             raise ValueError("Angle.setDegrees:  The parameter provided was not a integer or a float")
         
         # Rounds to 1 decimal place
-        self.angle = round(degrees % 360, 1)
+        degrees *= 60
+        degrees = round(degrees, 1) / 60
+        self.angle = float(degrees) % 360
         return self.angle
     
         pass
@@ -51,15 +55,17 @@ class Angle():
         
         # This handles negative degrees
         if floatedDegrees < 0 :
-            self.angle = round((floatedDegrees - minuteInDecimal) % 360, 1)
+            self.angle = (floatedDegrees - minuteInDecimal) % 360
         else :    
-            self.angle = round((floatedDegrees + minuteInDecimal) % 360, 1)
+            self.angle = (floatedDegrees + minuteInDecimal) % 360
         return self.angle
         
         pass
     
     # Adds an angle to this angle object, stores the value, and returns the result
-    def add(self, angle):
+    def add(self, angle= None):
+        if angle == None:
+            raise ValueError("Angle.add:  A parameter was not provided.")
         # Raises an error if the parameter is of the wrong type
         if not isinstance(angle, Angle) :
             raise ValueError("Angle.add:  The parameter you have provided is not an instance of the Angle class.")
@@ -70,7 +76,9 @@ class Angle():
         pass
     
     # Subtracts an angle from this angle object, stores the value, and returns the result.
-    def subtract(self, angle):
+    def subtract(self, angle= None):
+        if angle == None:
+            raise ValueError("Angle.subtract:  A parameter was not provided.")
         # Raises an error if the parameter is of the wrong type
         if not isinstance(angle, Angle) :
             raise ValueError("Angle.subtract:  The parameter you have provided is not an instance of the Angle class.")
@@ -81,7 +89,10 @@ class Angle():
         pass
     
     # Compares this objects angle to the angle sent in as a parameter and returns results based on the angles.
-    def compare(self, angle):
+    def compare(self, angle = None):
+        if angle == None:
+            raise ValueError("Angle.compare:  A parameter was not provided.")
+        
         # Raises an error if the parameter is of the wrong type
         if not isinstance(angle, Angle) :
             raise ValueError("Angle.compare:  The parameter you have provided is not an instance of the Angle class.")
