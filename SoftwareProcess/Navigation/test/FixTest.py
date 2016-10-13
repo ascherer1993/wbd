@@ -10,6 +10,7 @@ class Test(unittest.TestCase):
 
 
     def setUp(self):
+        self.fix = Fix.Fix()
         pass
 
 
@@ -34,8 +35,31 @@ class Test(unittest.TestCase):
 #               *if we _really_ wanted to be complete, we would test for presence of a parm
 #
 #    Happy path
-    def test100_010_ShouldCreateInstanceOfAngle(self):
+    def test100_010_ShouldCreateInstanceOfFix(self):
         self.assertIsInstance(Fix.Fix(), Fix.Fix)
+        # note:   At this point, we don't any way of verifying the value of the angle.
+        #         We'll be able to so when we construct tests for the getters
+
+
+    #    Acceptance Test: 200
+#        Analysis - setSightingsFile
+#            inputs
+#                name of file
+#            outputs
+#                boolean representing whether file is new or not
+#            state change
+#                writes to log file
+#
+#            Happy path
+#                nominal case: setSightingsFile(filename)
+#            Sad path
+#                filename is not valid
+#                file cannot be created or appended to 
+
+
+    def test200_010_ShouldCreateOrAppendToLog(self):
+        test = self.fix.setSightingFile("Hello")
+        self.assertIsInstance(test, bool)
         # note:   At this point, we don't any way of verifying the value of the angle.
         #         We'll be able to so when we construct tests for the getters
 
