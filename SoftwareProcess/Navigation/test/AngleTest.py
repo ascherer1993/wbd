@@ -525,4 +525,22 @@ class AngleTest(unittest.TestCase):
 
 
 
+#-----------------------------------------------------------------
+#    Acceptance Test: 900
+#        Analysis - getTangent
+#            inputs
+#                instance of angle
+#            outputs
+#                a float representing the tangent
+#
+#            Happy path
+#                nominal case:  return double of the tangent
+#            Sad path
+#                none*
+#                
+#    Happy path 
 
+def test900_010_ShouldReturnTangent(self):
+        anAngle = Angle.Angle()
+        anAngle.setDegrees(60)
+        self.assertAlmostEquals(1.732, anAngle.getTangent(), 3) 
