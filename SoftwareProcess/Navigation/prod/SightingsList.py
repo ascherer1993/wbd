@@ -12,11 +12,14 @@ class SightingsList():
     def __init__(self, xmlFile):
         self.sightingsList = []
         pathPrefix = '../Resources/'
-        XMLDOM = ET.parse(pathPrefix + xmlFile)
-        fix = XMLDOM.getroot()
-        
-        for sighting in fix:
-            self.sightingsList.append(self._extractSighting(sighting))
+        try :
+            XMLDOM = ET.parse(pathPrefix + xmlFile)
+            fix = XMLDOM.getroot()
+            
+            for sighting in fix:
+                self.sightingsList.append(self._extractSighting(sighting))
+        except:
+            raise ValueError("SightingsList.__init__:  The xml file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         pass
     
     def getSightingsList(self):

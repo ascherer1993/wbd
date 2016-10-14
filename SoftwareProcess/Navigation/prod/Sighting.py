@@ -48,6 +48,10 @@ class Sighting():
         return self.observation.getDegrees() + dip + refraction
     
     def _calculateDip(self, height, horizon):
+        if not isinstance(height, float) and not isinstance(height, int) :
+            raise ValueError("Sighting._calculateDip:  The parameter provided for height was not a integer or a float")
+        if not isinstance(horizon, str):
+            raise ValueError("Sighting._calculateDip:  The parameter provided for horizon was not a string")
         horizon = horizon.lower()
         if horizon == "natural":
             dip = (-.97 * math.sqrt(height)) / 60

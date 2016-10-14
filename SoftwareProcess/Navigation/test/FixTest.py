@@ -200,6 +200,10 @@ class Test(unittest.TestCase):
         sightingList = sightingsListObject.getSightingsList()
         self.assertEqual(len(sightingList), 2)
         
+    def test500_910_CreateSightingsListFailureFileName(self):
+        with self.assertRaises(ValueError):
+             SightingsList.SightingsList("sightingFile.xmsl")
+        
 #    Unit Test: 510_010
 #        Analysis - _extractSighting
 #            inputs
