@@ -11,6 +11,7 @@ class Fix():
         pass
     
     def setSightingFile(self, sightingFile):
+        return True
         pass
     
     def getSightings(self):

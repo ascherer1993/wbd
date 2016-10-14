@@ -540,7 +540,7 @@ class AngleTest(unittest.TestCase):
 #                
 #    Happy path 
 
-def test900_010_ShouldReturnTangent(self):
+    def test900_010_ShouldReturnTangent(self):
         anAngle = Angle.Angle()
         anAngle.setDegrees(60)
         self.assertAlmostEquals(1.732, anAngle.getTangent(), 3) 
