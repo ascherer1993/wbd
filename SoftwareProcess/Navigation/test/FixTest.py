@@ -43,18 +43,29 @@ class Test(unittest.TestCase):
 #                value is set to 0d0
 #
 #            Happy path
-#                nominal case:  Angle()
+#                nominal case:  Fix()
+#                               Fix(filename)
 #            Sad path
-#                none*
-#
-#               *if we _really_ wanted to be complete, we would test for presence of a parm
+#                Bad parameter - name and type
 #
 #    Happy path
     def test100_010_ShouldCreateInstanceOfFix(self):
         self.assertIsInstance(Fix.Fix(), Fix.Fix)
-        # note:   At this point, we don't any way of verifying the value of the angle.
-        #         We'll be able to so when we construct tests for the getters
+        self.assertTrue(os.path.isfile('../Resources/' + 'log.txt'))
+        
+    def test100_020_ShouldCreateInstanceOfFixWithParameter(self):
+        self.assertIsInstance(Fix.Fix("testfile.txt"), Fix.Fix)
+        self.assertTrue(os.path.isfile('../Resources/' + 'testfile.txt'))
 
+
+#    Sad path
+    def test900_010_ErrorCreatingFixWithName(self):
+        with self.assertRaises(ValueError):
+            Fix.Fix("test.txsdft")
+        
+    def test900_020_ErrorCreatingFixWithType(self):
+        with self.assertRaises(ValueError):
+            Fix.Fix(7)
 
 #    Acceptance Test: 200
 #        Analysis - setSightingsFile
