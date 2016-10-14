@@ -128,6 +128,7 @@ class Test(unittest.TestCase):
 #                file cannot be appended to 
         
     def test300_010_ShouldReturnTuple(self):
+        self.fix.setSightingFile("sightingFile.xml")
         returnValue = self.fix.getSightings()
         self.assertEqual(returnValue, ("0d0.0", "0d0.0"))
         

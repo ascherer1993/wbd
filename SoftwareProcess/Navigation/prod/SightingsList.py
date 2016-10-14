@@ -21,6 +21,7 @@ class SightingsList():
                 
             #sorts array by date
             self.sightingsList = sorted(self.sightingsList, key=lambda x: x.date, reverse = False)
+            self.fileName = xmlFile
         except:
             raise ValueError("SightingsList.__init__:  The xml file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         pass
@@ -28,6 +29,9 @@ class SightingsList():
     def getSightingsList(self):
         return self.sightingsList
         pass
+    
+    def getFileName(self):
+        return self.fileName
     
     def _extractSighting(self, xmlSighting):
         height = ""
@@ -60,7 +64,7 @@ class SightingsList():
                 pressure = float(xmlSighting.find("pressure").text)
                 
             if xmlSighting.find("horizon") != None:
-                horizon = str(xmlSighting.find("horizon").text)
+                horizon = xmlSighting.find("horizon").text
         
         
             

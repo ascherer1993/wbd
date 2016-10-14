@@ -6,8 +6,8 @@ Created on Oct 12, 2016
 
 import Navigation.prod.SightingsList as SightingsList
 import Navigation.prod.LogFile as LogFile
+import Navigation.prod.Angle as Angle
 import os.path
-from cgi import logfile
 
 class Fix():
     def __init__(self, logFile = None):
@@ -57,12 +57,22 @@ class Fix():
         except:
             raise ValueError("Fix.setSightingFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
         
+        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + sightingFile)
+        
         return sightingFile
         pass
     
     def getSightings(self):
-        
+        self.writeSightingsToLog(self.SightingList.getSightingsList())
+        self.logFileInstance.writeToLogEntry("End of sighting file:\t" + self.SightingList.getFileName())
         approximateLatitude = "0d0.0"
         approximateLongitude = "0d0.0"
         return (approximateLatitude, approximateLongitude)
+        pass
+    
+    def writeSightingsToLog(self, sightings):
+        for sighting in sightings:
+            adjustedAltitude = Angle.Angle()
+            adjustedAltitude.setDegrees(sighting.getAdjustedAltitude())
+            self.logFileInstance.writeToLogEntry(sighting.getBody().strip() + "\t" + sighting.getDate().strip() + "\t" + sighting.getTime().strip() + "\t" + adjustedAltitude.getString().strip())
         pass

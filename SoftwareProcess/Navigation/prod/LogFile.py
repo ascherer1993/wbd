@@ -5,6 +5,8 @@ Created on Oct 12, 2016
 '''
 
 import os.path
+import datetime
+
 
 class LogFile():
     '''
@@ -22,11 +24,16 @@ class LogFile():
                 self.file = open('../Resources/' + fileName, 'a')
             else:
                 self.file = open('../Resources/' + fileName, 'w')
-                
-            self.writeToLogEntry("Start of log\n")
+            
+            
+            
+            self.writeToLogEntry("Start of log")
         except:
             raise ValueError("LogFile.__init__:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
     
     def writeToLogEntry(self, msg):
-        self.file.write(msg)
+        message = "LOG:\t" + datetime.datetime.now().isoformat(' ') + ":\t" + msg + "\n"
+        self.file.write(message)
         pass
+    
+    
