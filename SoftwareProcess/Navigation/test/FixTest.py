@@ -83,17 +83,17 @@ class Test(unittest.TestCase):
 #            Happy path
 #                nominal case: setSightingsFile(filename)
 #            Sad path
-#                filename is not valid (type and length)
+#                filename is not valid (type, extension, and length)
 #                file cannot be created or appended to 
 
 
     def test200_010_ShouldCreateOrAppendToLog(self):
-        isNewFile = self.fix.setSightingFile("sightingFile.xml")
-        self.assertIsInstance(isNewFile, str)
+        fileName = self.fix.setSightingFile("sightingFile.xml")
+        self.assertIsInstance(fileName, str)
         
     def test200_020_ShouldReturnCorrectName(self):
-        isNewFile = self.fix.setSightingFile("sightingFile.xml")
-        self.assertEqual(isNewFile, "sightingFile.xml")
+        fileName = self.fix.setSightingFile("sightingFile.xml")
+        self.assertEqual(fileName, "sightingFile.xml")
         
     def test200_910_FileNameNotValidBadExtension(self):
         with self.assertRaises(ValueError):
@@ -126,12 +126,25 @@ class Test(unittest.TestCase):
 #                nominal case: getSightings()
 #            Sad path
 #                file cannot be appended to 
-
-
+        
     def test300_010_ShouldReturnTuple(self):
-        pass
-        #test = self.fix.getSightings()
-        #self.assertIsEqual(test, ("0d0.0", "0d0.0"))
+        returnValue = self.fix.getSightings()
+        self.assertEqual(returnValue, ("0d0.0", "0d0.0"))
+        
+    # I would write another test to make sure things are written to the log correctly, but will do so manually
+    
+    def test300_910_MissingRequiredTag(self):
+        fix = Fix.Fix("failLog.txt")
+        with self.assertRaises(ValueError):
+            fix.setSightingFile("failXML.xml")
+            fix.getSightings()
+            
+    def test300_920_WrongValueInTag(self):
+        fix = Fix.Fix("failLog.txt")
+        with self.assertRaises(ValueError):
+            fix.setSightingFile("failXML2.xml")
+            fix.getSightings()
+        
 
 
 

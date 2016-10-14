@@ -62,7 +62,6 @@ class Fix():
     
     def getSightings(self):
         
-        sl = SightingsList();
         approximateLatitude = "0d0.0"
         approximateLongitude = "0d0.0"
         return (approximateLatitude, approximateLongitude)

@@ -48,21 +48,25 @@ class SightingsList():
         except:
             raise ValueError("SightingsList._extractSighting:  The xml file did not contain a mandatory tag (body, date, time, or observation)")
             
-        if xmlSighting.find("height") != None:
-            height = xmlSighting.find("height").text
-            
-        if xmlSighting.find("temperature") != None:
-            temperature = xmlSighting.find("temperature").text
-            
-        if xmlSighting.find("pressure") != None:
-            pressure = xmlSighting.find("pressure").text
-            
-        if xmlSighting.find("pressure") != None:
-            pressure = xmlSighting.find("pressure").text
-            
-        if xmlSighting.find("horizon") != None:
-            horizon = xmlSighting.find("horizon").text
-            
+
+        try:
+            if xmlSighting.find("height") != None:
+                height = float(xmlSighting.find("height").text)
+                
+            if xmlSighting.find("temperature") != None:
+                temperature = float(xmlSighting.find("temperature").text)
+                
+            if xmlSighting.find("pressure") != None:
+                pressure = float(xmlSighting.find("pressure").text)
+                
+            if xmlSighting.find("horizon") != None:
+                horizon = str(xmlSighting.find("horizon").text)
         
+        
+            
+        except:
+            raise ValueError("SightingsList._extractSighting:  There was an error in one of the tags")
+
+    
         return Sighting.Sighting(body, date, time, observation, height, temperature, pressure, horizon)
     
