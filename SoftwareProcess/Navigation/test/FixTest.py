@@ -59,15 +59,15 @@ class Test(unittest.TestCase):
 
 
 #    Sad path
-    def test900_010_ErrorCreatingFixWithName(self):
+    def test100_910_ErrorCreatingFixWithName(self):
         with self.assertRaises(ValueError):
             Fix.Fix("test.txsdft")
         
-    def test900_020_ErrorCreatingFixWithType(self):
+    def test100_920_ErrorCreatingFixWithType(self):
         with self.assertRaises(ValueError):
             Fix.Fix(7)
             
-    def test900_030_FileNameNotLongEnough(self):
+    def test100_930_FileNameNotLongEnough(self):
         with self.assertRaises(ValueError):
             Fix.Fix("")
 
@@ -83,18 +83,27 @@ class Test(unittest.TestCase):
 #            Happy path
 #                nominal case: setSightingsFile(filename)
 #            Sad path
-#                filename is not valid
+#                filename is not valid (type and length)
 #                file cannot be created or appended to 
 
 
     def test200_010_ShouldCreateOrAppendToLog(self):
-        test = self.fix.setSightingFile("log.txt")
-        self.assertIsInstance(test, bool)
+        isNewFile = self.fix.setSightingFile("sightingFile.xml")
+        self.assertIsInstance(isNewFile, bool)
         # note:   At this point, we don't any way of verifying the value of the angle.
         #         We'll be able to so when we construct tests for the getters
         
-    def test200_910_FileNameNotValid(self):
-        pass
+    def test200_910_FileNameNotValidBadExtension(self):
+        with self.assertRaises(ValueError):
+            self.fix.setSightingFile("sightingFile.xdfgml")
+            
+    def test200_920_FileNameNotValidNoFileExists(self):
+        with self.assertRaises(ValueError):
+            self.fix.setSightingFile("hello.xml")
+            
+    def test200_910_FileNameNotValidBadType(self):
+        with self.assertRaises(ValueError):
+            self.fix.setSightingFile(7)
 #         with self.assertRaises(ValueError):
 #             self.fix.setSightingFile("log.txsdft")
         # note:   At this point, we don't any way of verifying the value of the angle.
