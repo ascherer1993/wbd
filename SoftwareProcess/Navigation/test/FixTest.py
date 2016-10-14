@@ -8,6 +8,7 @@ import Navigation.prod.Fix as Fix
 import Navigation.prod.SightingsList as SightingsList
 import Navigation.prod.Sighting as Sighting
 import Navigation.prod.Angle as Angle
+import Navigation.prod.LogFile as LogFile
 import xml.etree.ElementTree as ET
 
 class Test(unittest.TestCase):
@@ -202,7 +203,7 @@ class Test(unittest.TestCase):
         
     def test500_910_CreateSightingsListFailureFileName(self):
         with self.assertRaises(ValueError):
-             SightingsList.SightingsList("sightingFile.xmsl")
+            SightingsList.SightingsList("sightingFile.xmsl")
         
 #    Unit Test: 510_010
 #        Analysis - _extractSighting
@@ -229,6 +230,28 @@ class Test(unittest.TestCase):
             self.assertIsInstance(sighting, Sighting.Sighting)
         pass
     
+    
+#600s will be used for logFile    
+    
+#    Unit Test: 600_010
+#        Analysis - Constructor
+#            inputs
+#                filename - optional
+#            outputs
+#                none
+#            state change
+#                change to log file or creation of log file
+#
+#            Happy path
+#                nominal case: LogFile()
+#            Sad path
+#                none
+
+    def test600_010_ShouldModifyLogFile(self):
+        logFile = LogFile.LogFile("test.txt")
+        self.assertIsInstance(logFile, logFile.LogFile)
+        pass
+        
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
