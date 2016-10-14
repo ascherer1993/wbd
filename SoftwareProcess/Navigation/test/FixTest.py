@@ -10,6 +10,7 @@ import Navigation.prod.Sighting as Sighting
 import Navigation.prod.Angle as Angle
 import Navigation.prod.LogFile as LogFile
 import xml.etree.ElementTree as ET
+import os.path
 
 class Test(unittest.TestCase):
 
@@ -245,13 +246,35 @@ class Test(unittest.TestCase):
 #            Happy path
 #                nominal case: LogFile()
 #            Sad path
-#                none
+#                bad filename
 
     def test600_010_ShouldModifyLogFile(self):
         logFile = LogFile.LogFile("test.txt")
-        self.assertIsInstance(logFile, logFile.LogFile)
+        self.assertIsInstance(logFile, LogFile.LogFile)
+        self.assertTrue(os.path.isfile('../Resources/' + 'test.txt'))
         pass
         
+    def test600_910_BadFileName(self):
+        with self.assertRaises(ValueError):
+            LogFile.LogFile("test.txsdft")
+
+#    Unit Test: 610_010
+#        Analysis - Write To log
+#            inputs
+#                filename - optional
+#            outputs
+#                none
+#            state change
+#                Log has a new entry
+#
+#            Happy path
+#                nominal case: writeToLogEntry()
+#            Sad path
+#                bad filename
+
+# I have not thought of an easy way to test these types of things. I can always parse the file looking for the new entry, 
+# but this might be something i implement at a future date
+# also, if 600_010_SHouldModifyLogFile() doesn't break, it is likely that this worked as most likely a value error would occur if not
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
