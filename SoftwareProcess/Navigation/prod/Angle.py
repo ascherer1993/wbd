@@ -6,6 +6,7 @@
 '''
 
 import re
+import math
 
 class Angle():
     # Constructor
@@ -140,3 +141,6 @@ class Angle():
         pass
 
 
+    def getTangent(self):
+        angleInRads = math.pi * (self.angle/180)
+        return math.tan(angleInRads)
