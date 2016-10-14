@@ -76,7 +76,7 @@ class Test(unittest.TestCase):
 #            inputs
 #                name of file
 #            outputs
-#                boolean representing whether file is new or not
+#                File name that was sent in
 #            state change
 #                writes to log file
 #
@@ -89,9 +89,11 @@ class Test(unittest.TestCase):
 
     def test200_010_ShouldCreateOrAppendToLog(self):
         isNewFile = self.fix.setSightingFile("sightingFile.xml")
-        self.assertIsInstance(isNewFile, bool)
-        # note:   At this point, we don't any way of verifying the value of the angle.
-        #         We'll be able to so when we construct tests for the getters
+        self.assertIsInstance(isNewFile, str)
+        
+    def test200_020_ShouldReturnCorrectName(self):
+        isNewFile = self.fix.setSightingFile("sightingFile.xml")
+        self.assertEqual(isNewFile, "sightingFile.xml")
         
     def test200_910_FileNameNotValidBadExtension(self):
         with self.assertRaises(ValueError):

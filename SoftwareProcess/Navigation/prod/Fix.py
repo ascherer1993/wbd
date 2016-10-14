@@ -37,8 +37,6 @@ class Fix():
     
     def setSightingFile(self, sightingFile):
         
-        returnValue = False
-        
         if not isinstance(sightingFile, str):
             raise ValueError("Fix.setSightingFile:  The parameter you have provided is not of type string.")
 
@@ -51,9 +49,7 @@ class Fix():
                 raise ValueError("Fix.setSightingFile:  The filename you have provided does not have the extension \'.xml\'.")
             
             
-            if os.path.isfile('../Resources/' + sightingFile):
-                returnValue = True
-            else:
+            if not os.path.isfile('../Resources/' + sightingFile):
                 raise ValueError("Fix.setSightingFile:  The specified file could not be found.")
             
             self.SightingList = SightingsList.SightingsList(sightingFile)
@@ -61,7 +57,7 @@ class Fix():
         except:
             raise ValueError("Fix.setSightingFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
         
-        return returnValue
+        return sightingFile
         pass
     
     def getSightings(self):
