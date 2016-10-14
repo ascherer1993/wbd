@@ -74,5 +74,10 @@ class Fix():
         for sighting in sightings:
             adjustedAltitude = Angle.Angle()
             adjustedAltitude.setDegrees(sighting.getAdjustedAltitude())
-            self.logFileInstance.writeToLogEntry(sighting.getBody().strip() + "\t" + sighting.getDate().strip() + "\t" + sighting.getTime().strip() + "\t" + adjustedAltitude.getString().strip())
+            body = sighting.getBody().strip()
+            date = sighting.getDate().strip()
+            time = sighting.getTime().strip()
+            adjustedAltitudeString = adjustedAltitude.getString().strip()
+            
+            self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString)
         pass
