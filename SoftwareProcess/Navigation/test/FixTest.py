@@ -66,6 +66,10 @@ class Test(unittest.TestCase):
     def test900_020_ErrorCreatingFixWithType(self):
         with self.assertRaises(ValueError):
             Fix.Fix(7)
+            
+    def test900_030_FileNameNotLongEnough(self):
+        with self.assertRaises(ValueError):
+            Fix.Fix("")
 
 #    Acceptance Test: 200
 #        Analysis - setSightingsFile

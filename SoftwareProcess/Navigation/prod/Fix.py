@@ -15,6 +15,9 @@ class Fix():
         if not isinstance(logFile, str):
             raise ValueError("Fix.__init__:  The parameter you have provided is not of type string.")
         
+        if len(logFile) < 1:
+            raise ValueError("Fix.__init__:  The parameter you have provided is not a long enough filename.")
+        
         try:
             fileNameSplit = logFile.split('.')
             if fileNameSplit[1] != 'txt':
