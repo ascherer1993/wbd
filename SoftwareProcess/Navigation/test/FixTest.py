@@ -5,19 +5,21 @@ Created on Oct 12, 2016
 '''
 import unittest
 import Navigation.prod.Fix as Fix
+import Navigation.prod.SightingsList as SightingsList
 import Navigation.prod.Sighting as Sighting
 import Navigation.prod.Angle as Angle
+import xml.etree.ElementTree as ET
 
 class Test(unittest.TestCase):
 
 
     def setUp(self):
         self.fix = Fix.Fix()
-        self.sighting = Sighting.Sighting("BodyName", "2016-03-15", "23:15:01", "15d08.7",  9, 72, 1200, "Natural");
+        self.sighting = Sighting.Sighting("BodyName", "2016-03-15", "23:15:01", "60d0.0",  10, 70, 1200, "Natural");
         
         
         self.height_1 = 10
-        self.pressure_1 = 50
+        self.pressure_1 = 1200
         self.temperature_1 = 70
         self.altitude_1 = "60d0.0"
         self.horizon_1 = "natural"
@@ -129,7 +131,7 @@ class Test(unittest.TestCase):
 
     def test400_010_ShouldGetAdjustedAltitude(self):
         adjustedAltitude = self.sighting.getAdjustedAltitude()
-        self.assertEqual(adjustedAltitude, 50)
+        self.assertAlmostEqual(adjustedAltitude, 59.93822, 3)
 
 #    Unit Test: 410_010
 #        Analysis - Calculate Dip
@@ -173,7 +175,56 @@ class Test(unittest.TestCase):
         altitudeAngle.setDegreesAndMinutes(self.altitude_1)
         refraction = self.sighting._calculateRefraction(self.pressure_1, self.temperature_1, altitudeAngle)
         # Calculated by hand
-        self.assertAlmostEqual(refraction, -.0004436, 5)
+        self.assertAlmostEqual(refraction, -.0106475, 5)
+        
+        
+    
+#500s will be used for SightingsList    
+    
+#    Unit Test: 500_010
+#        Analysis - Constructor and getSightingsList
+#            inputs
+#                filename
+#            outputs
+#                none
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: SightingsList()
+#            Sad path
+#                File does not exist
+
+    def test500_010_CreateSightingsList(self):
+        sightingsListObject = SightingsList.SightingsList("sightingFile.xml")
+        sightingList = sightingsListObject.getSightingsList()
+        self.assertEqual(len(sightingList), 2)
+        
+#    Unit Test: 510_010
+#        Analysis - _extractSighting
+#            inputs
+#                xml node
+#            outputs
+#                Sighting object
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: _extractSighting()
+#            Sad path
+#                none, already validated
+
+    def test510_010_ShouldCreateSighting(self):
+        sightingsListObject = SightingsList.SightingsList("sightingFile.xml")
+        XMLDOM = ET.parse("../Resources/sightingFile.xml")
+        fix = XMLDOM.getroot()
+        sightings = []
+        for sighting in fix:
+            sightings.append(sightingsListObject._extractSighting(sighting))
+        for sighting in sightings:
+            self.assertIsInstance(sighting, Sighting.Sighting)
+        pass
+    
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

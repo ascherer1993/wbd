@@ -43,9 +43,12 @@ class Sighting():
         return self.horizon
     
     def getAdjustedAltitude(self):
-        pass
+        dip = self._calculateDip(self.height, self.horizon)
+        refraction = self._calculateRefraction(self.pressure, self.temperature, self.observation)
+        return self.observation.getDegrees() + dip + refraction
     
     def _calculateDip(self, height, horizon):
+        horizon = horizon.lower()
         if horizon == "natural":
             dip = (-.97 * math.sqrt(height)) / 60
         elif horizon == "artificial":
@@ -62,5 +65,6 @@ class Sighting():
         tangentOfAltitude = altitude.getTangent()
         return (-.00452 * pressure)/(273 + tempInCelsius)/tangentOfAltitude
     
+    # This could probably be moved into some utility class
     def _calculateTempInCelsius(self, tempInFahrenheit):
         return (tempInFahrenheit - 32) * (5.0/9)
