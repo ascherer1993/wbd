@@ -94,7 +94,7 @@ class Test(unittest.TestCase):
     def test200_020_ShouldReturnCorrectName(self):
         fileName = self.fix.setSightingFile("sightingFile.xml")
         self.assertEqual(fileName, "sightingFile.xml")
-        
+             
     def test200_910_FileNameNotValidBadExtension(self):
         with self.assertRaises(ValueError):
             self.fix.setSightingFile("sightingFile.xdfgml")
