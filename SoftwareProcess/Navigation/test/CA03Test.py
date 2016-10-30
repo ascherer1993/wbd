@@ -741,8 +741,35 @@ class TestFix(unittest.TestCase):
         pass
 
 
+#*******************************************************************************************************************
+# Unit Tests
+#*******************************************************************************************************************
 
+#AriesEntriesList.Py
+#I plan to use the 600's for all of the Aries tests to just make things easier on me, incrementing by 10s
 
+#    Unit Test: 600_010
+#        Analysis - initiate ariesEntries
+#            inputs
+#                f.txt, len(f) > 0
+#            outputs
+#                none
+#            state change
+#                sets filename
+#
+#            Happy path
+#                nominal case: AriesEntriesList()
+#            Sad path
+#                none
+
+def test600_010_SholdRaiseExceptionOnMissingFile(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(self.RANDOM_LOG_FILE+".xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Major:  failure to check for missing sighting file") 
+        pass
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
