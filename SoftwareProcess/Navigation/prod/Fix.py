@@ -28,6 +28,7 @@ class Fix():
             
             
             self.logFileInstance = LogFile.LogFile(logFile)
+            self.SightingList = None
             
             
         except:
@@ -35,7 +36,9 @@ class Fix():
 
         pass
     
-    def setSightingFile(self, sightingFile):
+    def setSightingFile(self, sightingFile = None):
+        if sightingFile == None:
+            raise ValueError("Fix.setSightingFile:  setSightingFile requires a file name.")
         
         if not isinstance(sightingFile, str):
             raise ValueError("Fix.setSightingFile:  The parameter you have provided is not of type string.")
@@ -63,7 +66,13 @@ class Fix():
         pass
     
     def getSightings(self):
-        self.writeSightingsToLog(self.SightingList.getSightingsList())
+        try:
+            
+            self.writeSightingsToLog(self.SightingList.getSightingsList())
+            
+        except:
+            raise ValueError("Fix.getSightings:  There was a problem loading in the file.")
+        
         self.logFileInstance.writeToLogEntry("End of sighting file:\t" + self.SightingList.getFileName())
         approximateLatitude = "0d0.0"
         approximateLongitude = "0d0.0"
@@ -73,6 +82,12 @@ class Fix():
     def writeSightingsToLog(self, sightings):
         for sighting in sightings:
             adjustedAltitude = Angle.Angle()
+            adjustedAltitudeValue = sighting.getAdjustedAltitude()
+            if adjustedAltitudeValue != False:
+                adjustedAltitude.setDegrees(adjustedAltitudeValue)
+                adjustedAltitudeString = adjustedAltitude.getString().strip()
+            else:
+                adjustedAltitudeString = "NA"
             adjustedAltitude.setDegrees(sighting.getAdjustedAltitude())
             body = sighting.getBody().strip()
             date = sighting.getDate().strip()
@@ -80,4 +95,4 @@ class Fix():
             adjustedAltitudeString = adjustedAltitude.getString().strip()
             
             self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString)
-        pass
+        pass  

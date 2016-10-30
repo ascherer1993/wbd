@@ -20,12 +20,15 @@ class LogFile():
             if fileNameSplit[1] != 'txt':
                 raise ValueError("LogFile.__init__:  The filename you have provided does not have the extension \'.txt\'.")
             
-            if os.path.isfile('../Resources/' + fileName):
-                self.file = open('../Resources/' + fileName, 'a')
+            #self.filePath = '../Resources/' + fileName
+            self.filePath = fileName
+            
+            if os.path.isfile(self.filePath):
+                self.file = open(self.filePath, 'a')
             else:
-                self.file = open('../Resources/' + fileName, 'w')
+                self.file = open(self.filePath, 'w')
             
-            
+            self.file.close()
             
             self.writeToLogEntry("Start of log")
         except:
@@ -33,7 +36,11 @@ class LogFile():
     
     def writeToLogEntry(self, msg):
         message = "LOG:\t" + datetime.datetime.now().isoformat(' ') + ":\t" + msg + "\n"
+        
+        self.file = open(self.filePath, 'a')
         self.file.write(message)
+        self.file.close()
         pass
     
-    
+    def closeFile(self):
+        self.file.close()

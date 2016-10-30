@@ -6,20 +6,57 @@ Created on Oct 12, 2016
 
 import math
 import Navigation.prod.Angle as Angle
+import time as T
+import datetime
 
 class Sighting():
     
     def __init__(self, body, date, time, observation, height, temperature, pressure, horizon):
         self.body = body
+        
+        if not self._isDateFormat(date):
+            raise ValueError("Sighting._init_:  Date is not valid.")
         self.date = date
+        
+        if not self._isTimeFormat(time):
+            raise ValueError("Sighting._init_:  Time is not valid.")
         self.time = time
+        
         self.observation = Angle.Angle()
         self.observation.setDegreesAndMinutes(observation)
         self.height = height
+        
+        if temperature != None and not isinstance(temperature, int):
+            raise ValueError("Sighting._init_:  Temperature must be an int.")
+        if temperature != None and temperature < -20 or temperature > 120:
+            raise ValueError("Sighting._init_:  Temperature must be GE -20 degrees and LE to 120 degrees.")
         self.temperature = temperature
+        
+        if pressure != None and not isinstance(pressure, int):
+            raise ValueError("Sighting._init_:  Pressure must be an int.")
         self.pressure = pressure
+        
+        if (horizon.lower() != "artificial" and horizon.lower() != "natural"):
+            raise ValueError("Sighting._init_:  Horizon has a bad value.")
+        
         self.horizon = horizon
         pass
+    
+    #I got this Nadia Alramli in her response found at from http://stackoverflow.com/questions/1322464/python-time-format-check/1322524
+    def _isTimeFormat(self, timeIn):
+        try:
+            T.strptime(timeIn, '%H:%M:%S')
+            return True
+        except ValueError:
+            return False
+
+    def _isDateFormat(self, dateIn):
+        try:
+            datetime.datetime.strptime(dateIn, '%Y-%m-%d')
+            return True
+        except ValueError:
+            return False
+
     
     def getBody(self):
         return self.body
@@ -43,6 +80,8 @@ class Sighting():
         return self.horizon
     
     def getAdjustedAltitude(self):
+        if self.height == None or self.pressure == None or self.temperature == None:
+            return False
         dip = self._calculateDip(self.height, self.horizon)
         refraction = self._calculateRefraction(self.pressure, self.temperature, self.observation)
         return self.observation.getDegrees() + dip + refraction

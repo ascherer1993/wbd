@@ -11,22 +11,27 @@ class SightingsList():
     
     def __init__(self, xmlFile):
         self.sightingsList = []
-        pathPrefix = '../Resources/'
         try :
-            XMLDOM = ET.parse(pathPrefix + xmlFile)
-            fix = XMLDOM.getroot()
-            
-            for sighting in fix:
-                self.sightingsList.append(self._extractSighting(sighting))
-                
-            #sorts array by date
-            self.sightingsList = sorted(self.sightingsList, key=lambda x: x.date, reverse = False)
             self.fileName = xmlFile
         except:
             raise ValueError("SightingsList.__init__:  The xml file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         pass
     
     def getSightingsList(self):
+        pathPrefix = '../Resources/'
+        try :
+            XMLDOM = ET.parse(pathPrefix + self.fileName)
+            fix = XMLDOM.getroot()
+            
+            for sighting in fix:
+                sightingToAppend = self._extractSighting(sighting)
+                self.sightingsList.append(sightingToAppend)
+                
+            #sorts array by date
+            self.sightingsList = sorted(self.sightingsList, key=lambda x: x.date, reverse = False)
+        except:
+            raise ValueError("SightingsList.getSightingsList:  The xml file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
+        
         return self.sightingsList
         pass
     
@@ -34,9 +39,9 @@ class SightingsList():
         return self.fileName
     
     def _extractSighting(self, xmlSighting):
-        height = ""
-        temperature = ""
-        pressure = ""
+        height = None
+        temperature = None
+        pressure = None
         horizon = "Natural"
         
         try:
@@ -58,10 +63,10 @@ class SightingsList():
                 height = float(xmlSighting.find("height").text)
                 
             if xmlSighting.find("temperature") != None:
-                temperature = float(xmlSighting.find("temperature").text)
+                temperature = int(xmlSighting.find("temperature").text)
                 
             if xmlSighting.find("pressure") != None:
-                pressure = float(xmlSighting.find("pressure").text)
+                pressure = int(xmlSighting.find("pressure").text)
                 
             if xmlSighting.find("horizon") != None:
                 horizon = xmlSighting.find("horizon").text
