@@ -6,6 +6,7 @@ Created on Oct 30, 2016
 
 import Navigation.prod.Sighting as S
 import Navigation.prod.Angle as A
+import time
 
 class AriesEntriesList():
     
@@ -32,5 +33,12 @@ class AriesEntriesList():
     def calculateAriesGreenWichHourAngle(self, gwh1, gwh2, seconds):
         pass
     
-    def calculateSecondsSinceSighting(self, sighting, Entry):
-        pass
+    def calculateSecondsSinceSighting(self, sighting, entry):
+        sightingTime = sighting.getTime()
+        sightingTimeArray = sightingTime.split(':')
+        sightingTotalSeconds = int(sightingTimeArray[0])*3600 + int(sightingTimeArray[1])*60 + int(sightingTimeArray[2])
+        entryHour = entry.getHour()
+        entryTotalSeconds = int(entryHour)*3600
+        
+        totalSeconds = sightingTotalSeconds - entryTotalSeconds
+        return totalSeconds

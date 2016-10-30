@@ -18,3 +18,11 @@ class AriesEntry():
         self.greenwichHourAngle = A.Angle()
         self.greenwichHourAngle.setDegreesAndMinutes(greenwichHourAngle)
         
+    def getHour(self):
+        return self.hour
+    
+    def getDate(self):
+        return self.date
+    
+    def getGHA(self):
+        return self.greenwichHourAngle
