@@ -550,6 +550,200 @@ class TestFix(unittest.TestCase):
         
 
 
+# 400 setAriesFile
+#    Analysis
+#        inputs:
+#            AriesFile: string, mandatory, unvalidated, format = f.txt (len(f) >= 1)
+#        outputs:
+#            returns:  string with file path
+#            also:    writes "Aries file: /filepath/" to log file
+#
+#    Happy tests:
+#        ariesFile:  
+#            legal file name  -> setAriesFile("ariesFile.txt")  
+#    Sad tests:
+#        ariesFile:
+#            nonstring -> setSightinghFile(42)
+#            length error -> setSightingFile(".xml")
+#            nontxt -> setSightingFile("sightingFile.txt")
+#            missing -> setSightingFile()
+#            nonexistent file -> setSightingFile("missing.xml")
+    def test400_010_ShouldConstructWithKeywordParm(self):
+        'Minor:  '
+        theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
+        try:
+            pass
+            #result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
+            #self.assertEquals(result, "CA02_200_ValidStarSightingFile.xml")
+        except:
+            pass
+            #self.fail("Minor: incorrect keyword specified in setSighting parm")
+        self.cleanup()   
+
+    def test400_020_ShouldSetValidAriesFile(self):
+        theFix = F.Fix()
+#          result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
+#          self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
+#          theLogFile = open(self.DEFAULT_LOG_FILE, "r")
+#          logFileContents = theLogFile.readlines()
+#          self.assertNotEquals(-1, logFileContents[-1].find(self.logSightingString), 
+#                               "Minor:  first setSighting logged entry is incorrect")
+#          theLogFile.close()
+        
+    def test400_910_ShouldRaiseExceptionOnNonStringFileName(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(42)
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for non-string sighting file name")
+        pass  
+        
+    def test400_920_ShouldRaiseExceptionOnFileLengthError(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(".xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for .GE. 1 sighting file name") 
+        pass
+    
+    def test400_930_ShouldRaiseExceptionOnNonTxtFile1(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile("sighting.")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for non.xml sighting file extension")
+        pass
+        
+    def test400_940_ShouldRaiseExceptionOnNonTxtFile2(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile("xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to delineate between sighting file name and extension") 
+        pass
+        
+    def test400_950_SholdRaiseExceptionOnMissingFileName(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile()
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Major:  failure to check for missing sighting file")       
+        pass
+        
+           
+    def test400_960_SholdRaiseExceptionOnMissingFile(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(self.RANDOM_LOG_FILE+".xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Major:  failure to check for missing sighting file") 
+        pass
+
+# 500 setStarFile
+#    Analysis
+#        inputs:
+#            AriesFile: string, mandatory, unvalidated, format = f.txt (len(f) >= 1)
+#        outputs:
+#            returns:  string with file path
+#            also:    writes "starFile: /path/" to log file
+#
+#    Happy tests:
+#        starFile:  
+#            legal file name  -> setStarFile("starFile.txt")  
+#    Sad tests:
+#        starFile:
+#            nonstring -> setStarFile(42)
+#            length error -> setStarFile(".txt")
+#            nonXML -> setStarFile("starFile.txt")
+#            missing -> setStarFile()
+#            nonexistent file -> setStarFile("missing.txt")
+    def test500_010_ShouldConstructWithKeywordParm(self):
+        'Minor:  '
+        theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
+        try:
+            pass
+            #result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
+            #self.assertEquals(result, "CA02_200_ValidStarSightingFile.xml")
+        except:
+            pass
+            #self.fail("Minor: incorrect keyword specified in setSighting parm")
+        self.cleanup()   
+
+    def test500_020_ShouldSetValidStarFile(self):
+        theFix = F.Fix()
+#          result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
+#          self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
+#          theLogFile = open(self.DEFAULT_LOG_FILE, "r")
+#          logFileContents = theLogFile.readlines()
+#          self.assertNotEquals(-1, logFileContents[-1].find(self.logSightingString), 
+#                               "Minor:  first setSighting logged entry is incorrect")
+#          theLogFile.close()
+        
+    def test500_910_ShouldRaiseExceptionOnNonStringFileName(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(42)
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for non-string sighting file name")
+        pass  
+        
+    def test500_920_ShouldRaiseExceptionOnFileLengthError(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(".xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for .GE. 1 sighting file name") 
+        pass
+    
+    def test500_930_ShouldRaiseExceptionOnNonTxtFile1(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile("sighting.")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to check for non.xml sighting file extension")
+        pass
+        
+    def test500_940_ShouldRaiseExceptionOnNonTxtFile2(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile("xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Minor:  failure to delineate between sighting file name and extension") 
+        pass
+        
+    def test500_950_SholdRaiseExceptionOnMissingFileName(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile()
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Major:  failure to check for missing sighting file")       
+        pass
+        
+           
+    def test500_960_SholdRaiseExceptionOnMissingFile(self):
+#         expectedDiag = self.className + "setSightingFile:"
+#         theFix = F.Fix()
+#         with self.assertRaises(ValueError) as context:
+#             theFix.setSightingFile(self.RANDOM_LOG_FILE+".xml")
+#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+#                           "Major:  failure to check for missing sighting file") 
+        pass
+
+
+
+
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
