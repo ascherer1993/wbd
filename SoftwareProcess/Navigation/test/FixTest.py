@@ -2,6 +2,11 @@ import unittest
 import uuid
 import os
 import Navigation.prod.Fix as F
+import Navigation.prod.Sighting as Sighting
+import Navigation.prod.Angle as Angle
+import Navigation.prod.LogFile as LogFile
+import Navigation.prod.SightingsList as SightingsList
+import xml.etree.ElementTree as ET
 
 class TestFix(unittest.TestCase):
     
@@ -17,6 +22,18 @@ class TestFix(unittest.TestCase):
             
         # generate random log file name
         self.RANDOM_LOG_FILE = "log" + str(uuid.uuid4())[-12:] + ".txt"
+        
+        
+        self.fix = F.Fix()
+        self.sighting = Sighting.Sighting("BodyName", "2016-03-15", "23:15:01", "60d0.0",  10, 70, 1200, "Natural");
+        
+        
+        self.height_1 = 10
+        self.pressure_1 = 1200
+        self.temperature_1 = 70
+        self.altitude_1 = "60d0.0"
+        self.horizon_1 = "natural"
+        self.horizon_2 = "artificial"
     
 
 # 100 Constructor
@@ -517,7 +534,7 @@ class TestFix(unittest.TestCase):
                
 
 
-        
+    
 
 #  helper methods
     def indexInList(self, target, searchList):
@@ -529,3 +546,168 @@ class TestFix(unittest.TestCase):
     def cleanup(self):
         if(os.path.isfile(self.RANDOM_LOG_FILE)):
             os.remove(self.RANDOM_LOG_FILE)  
+            
+            
+            
+#*******************************************************************************************************************
+# Unit Tests
+#*******************************************************************************************************************
+
+#Sighting.Py
+#I plan to use the 400's for all of the sightings tests to just make things easier on me, incrementing by 10s
+
+
+#    Unit Test: 400_010
+#        Analysis - Get adjusted Altitude
+#            inputs
+#                none
+#            outputs
+#                adjusted altitude
+#            state change
+#                adjusted altitude changes
+#
+#            Happy path
+#                nominal case: getAdjustedAltitude()
+#            Sad path
+#                none
+
+    def test400_010_ShouldGetAdjustedAltitude(self):
+        adjustedAltitude = self.sighting.getAdjustedAltitude()
+        self.assertAlmostEqual(adjustedAltitude, 59.93822, 3)
+
+#    Unit Test: 410_010
+#        Analysis - Calculate Dip
+#            inputs
+#                height
+#            outputs
+#                calculated dip
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: _calculateDip()
+#            Sad path
+#                none
+
+    def test410_010_CalculateDipWithNatural(self):
+        dip = self.sighting._calculateDip(self.height_1, self.horizon_1)
+        self.assertAlmostEqual(dip, -.05112, 3)
+
+
+    def test410_020_CalculateDipWithArtificial(self):
+        dip = self.sighting._calculateDip(self.height_1, self.horizon_2)
+        self.assertEqual(dip, 0)
+
+#    Unit Test: 420_010
+#        Analysis - Calculate Refraction
+#            inputs
+#                height
+#            outputs
+#                calculated dip
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: _CalculateRefraction()
+#            Sad path
+#                none
+
+    def test420_010_CalculateRefraction(self):
+        altitudeAngle = Angle.Angle()
+        altitudeAngle.setDegreesAndMinutes(self.altitude_1)
+        refraction = self.sighting._calculateRefraction(self.pressure_1, self.temperature_1, altitudeAngle)
+        # Calculated by hand
+        self.assertAlmostEqual(refraction, -.0106475, 5)
+        
+        
+    
+#500s will be used for SightingsList    
+    
+#    Unit Test: 500_010
+#        Analysis - Constructor and getSightingsList
+#            inputs
+#                filename
+#            outputs
+#                none
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: SightingsList()
+#            Sad path
+#                File does not exist
+
+    def test500_010_CreateSightingsList(self):
+        sightingsListObject = SightingsList.SightingsList("sightingFile.xml")
+        sightingList = sightingsListObject.getSightingsList()
+        self.assertEqual(len(sightingList), 2)
+        
+#    Unit Test: 510_010
+#        Analysis - _extractSighting
+#            inputs
+#                xml node
+#            outputs
+#                Sighting object
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: _extractSighting()
+#            Sad path
+#                none, already validated
+
+    def test510_010_ShouldCreateSighting(self):
+        sightingsListObject = SightingsList.SightingsList("sightingFile.xml")
+        XMLDOM = ET.parse("../Resources/sightingFile.xml")
+        fix = XMLDOM.getroot()
+        sightings = []
+        for sighting in fix:
+            sightings.append(sightingsListObject._extractSighting(sighting))
+        for sighting in sightings:
+            self.assertIsInstance(sighting, Sighting.Sighting)
+        pass
+    
+    
+#600s will be used for logFile    
+    
+#    Unit Test: 600_010
+#        Analysis - Constructor
+#            inputs
+#                filename - optional
+#            outputs
+#                none
+#            state change
+#                change to log file or creation of log file
+#
+#            Happy path
+#                nominal case: LogFile()
+#            Sad path
+#                bad filename
+
+    def test600_010_ShouldModifyLogFile(self):
+        logFile = LogFile.LogFile("test.txt")
+        self.assertIsInstance(logFile, LogFile.LogFile)
+        self.assertTrue(os.path.isfile('../Resources/' + 'test.txt'))
+        pass
+        
+    def test600_910_BadFileName(self):
+        with self.assertRaises(ValueError):
+            LogFile.LogFile("test.txsdft")
+
+#    Unit Test: 610_010
+#        Analysis - Write To log
+#            inputs
+#                filename - optional
+#            outputs
+#                none
+#            state change
+#                Log has a new entry
+#
+#            Happy path
+#                nominal case: writeToLogEntry()
+#            Sad path
+#                bad filename
+
+# I have not thought of an easy way to test these types of things. I can always parse the file looking for the new entry, 
+# but this might be something i implement at a future date
+# also, if 600_010_SHouldModifyLogFile() doesn't break, it is likely that this worked as most likely a value error would occur if not
