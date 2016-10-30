@@ -789,6 +789,28 @@ class TestFix(unittest.TestCase):
         pass
 
 
+#    Unit Test: 600_030
+#        Analysis - calculateSecondsSinceSighting()
+#            inputs
+#                sighting, entry
+#            outputs
+#                seconds
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: returns seconds
+#            Sad path
+#                none
+
+    def test600_030_ShouldReturnCorrectSeconds(self):
+        observation = Angle.Angle()
+        sighting = Sighting.Sighting("test", "2005-09-15", "12:30:00", observation.getString(), 0, 72, 100, "Natural")
+        entry = AriesEntry.AriesEntry("09/15/05", 13, observation)
+        ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
+        self.assertEquals(ariesFile.calculateSecondsSinceSighting(sighting, entry), 1800)
+        pass
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
