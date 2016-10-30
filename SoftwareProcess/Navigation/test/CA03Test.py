@@ -806,7 +806,7 @@ class TestFix(unittest.TestCase):
     def test600_030_ShouldReturnCorrectSeconds(self):
         observation = Angle.Angle()
         sighting = Sighting.Sighting("test", "2005-09-15", "12:30:00", observation.getString(), 0, 72, 100, "Natural")
-        entry = AriesEntry.AriesEntry("09/15/05", 13, observation)
+        entry = AriesEntry.AriesEntry("09/15/05", 13, observation.getString())
         ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
         self.assertEquals(ariesFile.calculateSecondsSinceSighting(sighting, entry), 1800)
         pass
