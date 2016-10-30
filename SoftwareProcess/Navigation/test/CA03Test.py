@@ -11,6 +11,8 @@ import Navigation.prod.Sighting as Sighting
 import Navigation.prod.Angle as Angle
 import Navigation.prod.LogFile as LogFile
 import Navigation.prod.SightingsList as SightingsList
+import Navigation.prod.AriesEntriesList as AriesEntriesList
+import Navigation.prod.AriesEntry as AriesEntry
 import xml.etree.ElementTree as ET
 
 class TestFix(unittest.TestCase):
@@ -762,14 +764,30 @@ class TestFix(unittest.TestCase):
 #            Sad path
 #                none
 
-def test600_010_SholdRaiseExceptionOnMissingFile(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile(self.RANDOM_LOG_FILE+".xml")
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Major:  failure to check for missing sighting file") 
+    def test600_010_ShouldCreateAriesEntriesListAndSetName(self):
+        ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
+        self.assertIsInstance(ariesFile, AriesEntriesList.AriesEntriesList)
         pass
+
+#    Unit Test: 600_020
+#        Analysis - init setting filename and getAriesFileName
+#            inputs
+#                none
+#            outputs
+#                str - filename
+#            state change
+#                filename is changed
+#
+#            Happy path
+#                nominal case: AriesEntriesList() -> getAriesFileName
+#            Sad path
+#                none
+
+    def test600_020_ShouldCreateAriesEntriesListAndSetName(self):
+        ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
+        self.assertEquals(ariesFile.getAriesFileName(), "aries.txt")
+        pass
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

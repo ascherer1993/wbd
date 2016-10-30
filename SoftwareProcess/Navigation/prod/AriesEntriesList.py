@@ -22,7 +22,7 @@ class AriesEntriesList():
     
     
     def getAriesFileName(self):
-        return self.fileName
+        pass
     
     def getRelevantAriesEntry(self):
         pass
