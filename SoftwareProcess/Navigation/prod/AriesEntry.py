@@ -16,7 +16,7 @@ class AriesEntry():
         self.hour = hour
         
         self.greenwichHourAngle = A.Angle()
-        self.greenwichHourAngle.setDegreesAndMinutes(greenwichHourAngle)
+        self.greenwichHourAngle.setDegreesAndMinutesAllowNegatives(greenwichHourAngle)
         
     def getHour(self):
         return self.hour

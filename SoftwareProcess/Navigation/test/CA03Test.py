@@ -167,16 +167,18 @@ class TestFix(unittest.TestCase):
         'Minor:  '
         theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
         try:
+            expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\CA02_200_ValidStarSightingFile.xml'
             result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-            self.assertEquals(result, "CA02_200_ValidStarSightingFile.xml")
+            self.assertEquals(result, expectedPath)
         except:
             self.fail("Minor: incorrect keyword specified in setSighting parm")
         self.cleanup()   
 
     def test200_020_ShouldSetValidSightingFile(self):
         theFix = F.Fix()
+        expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\CA02_200_ValidStarSightingFile.xml'
         result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-        self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
+        self.assertEquals(result, expectedPath)
         theLogFile = open(self.DEFAULT_LOG_FILE, "r")
         logFileContents = theLogFile.readlines()
         self.assertNotEquals(-1, logFileContents[-1].find(self.logSightingString), 
@@ -599,7 +601,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile(42)
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Minor:  failure to check for non-string sighting file name")
+                          "Minor:  failure to check for non-string aries file name")
         pass  
         
     def test400_920_ShouldRaiseExceptionOnFileLengthError(self):
@@ -608,7 +610,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile(".txt")
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Minor:  failure to check for .GE. 1 sighting file name") 
+                          "Minor:  failure to check for .GE. 1 aries file name") 
         pass
     
     def test400_930_ShouldRaiseExceptionOnNonTxtFile1(self):
@@ -617,7 +619,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile("sighting.")
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Minor:  failure to check for non.xml sighting file extension")
+                          "Minor:  failure to check for non.txt aries file extension")
         pass
         
     def test400_940_ShouldRaiseExceptionOnNonTxtFile2(self):
@@ -626,7 +628,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile("txt")
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Minor:  failure to delineate between sighting file name and extension") 
+                          "Minor:  failure to delineate between aries file name and extension") 
         pass
         
     def test400_950_SholdRaiseExceptionOnMissingFileName(self):
@@ -635,7 +637,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile()
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Major:  failure to check for missing sighting file")       
+                          "Major:  failure to check for missing aries file")       
         pass
         
            
@@ -645,7 +647,7 @@ class TestFix(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             theFix.setAriesFile(self.RANDOM_LOG_FILE+".txt")
         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-                          "Major:  failure to check for missing sighting file") 
+                          "Major:  failure to check for missing aries file") 
         pass
 
 # 500 setStarFile
@@ -689,58 +691,58 @@ class TestFix(unittest.TestCase):
         theStarFile.close()
         
     def test500_910_ShouldRaiseExceptionOnNonStringFileName(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile(42)
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Minor:  failure to check for non-string sighting file name")
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile(42)
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Minor:  failure to check for non-string star file name")
         pass  
         
     def test500_920_ShouldRaiseExceptionOnFileLengthError(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile(".xml")
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Minor:  failure to check for .GE. 1 sighting file name") 
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile(".txt")
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Minor:  failure to check for .GE. 1 star file name") 
         pass
     
     def test500_930_ShouldRaiseExceptionOnNonTxtFile1(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile("sighting.")
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Minor:  failure to check for non.xml sighting file extension")
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile("stars.")
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Minor:  failure to check for non.txt star file extension")
         pass
         
     def test500_940_ShouldRaiseExceptionOnNonTxtFile2(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile("xml")
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Minor:  failure to delineate between sighting file name and extension") 
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile("txt")
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Minor:  failure to delineate between star file name and extension") 
         pass
         
     def test500_950_SholdRaiseExceptionOnMissingFileName(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile()
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Major:  failure to check for missing sighting file")       
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile()
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Major:  failure to check for missing star file")       
         pass
         
            
     def test500_960_SholdRaiseExceptionOnMissingFile(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile(self.RANDOM_LOG_FILE+".xml")
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Major:  failure to check for missing sighting file") 
+        expectedDiag = self.className + "setStarFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setStarFile(self.RANDOM_LOG_FILE+".txt")
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Major:  failure to check for missing star file") 
         pass
 
 
@@ -939,9 +941,6 @@ class TestFix(unittest.TestCase):
         
         self.assertEqual(sidewichHourAngle, "353d14.1")
         
-        # Origionally, I had a negative number check here, but the setdegreesandminutes method
-        # that we wrote mods it... so I am not sure what was supposed to be done, for now I will
-        # just calculate the mod result for this
         self.assertEqual(geographicPositionLatitude, "-42d13.4")
         #self.assertEqual(geographicPositionLatitude, "317d46.6")
     

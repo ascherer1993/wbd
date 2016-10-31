@@ -59,6 +59,7 @@ class Fix():
             if not os.path.isfile('../Resources/' + sightingFile):
                 raise ValueError("Fix.setSightingFile:  The specified file could not be found.")
             
+            
             self.SightingList = SightingsList.SightingsList(sightingFile)
             
         except:
@@ -66,7 +67,8 @@ class Fix():
         
         self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + sightingFile)
         
-        return sightingFile
+        returnPath = os.path.abspath('../Resources/' + sightingFile)
+        return returnPath
     
     def setAriesFile(self, ariesFile = None):
         if ariesFile == None:
