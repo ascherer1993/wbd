@@ -108,7 +108,7 @@ class Fix():
         
         try:
             fileNameSplit = starFile.split('.')
-            if fileNameSplit[1] != 'xml':
+            if fileNameSplit[1] != 'txt':
                 raise ValueError("Fix.setStarFile:  The filename you have provided does not have the extension \'.txt\'.")
             
             

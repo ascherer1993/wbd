@@ -680,13 +680,13 @@ class TestFix(unittest.TestCase):
 
     def test500_020_ShouldSetValidStarFile(self):
         theFix = F.Fix()
-#          result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-#          self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
-#          theLogFile = open(self.DEFAULT_LOG_FILE, "r")
-#          logFileContents = theLogFile.readlines()
-#          self.assertNotEquals(-1, logFileContents[-1].find(self.logSightingString), 
-#                               "Minor:  first setSighting logged entry is incorrect")
-#          theLogFile.close()
+        result = theFix.setStarFile("stars.txt")
+        #self.assertEquals(result,"stars.txt")
+        theStarFile = open("../Resources/stars.txt", "r")
+        starFileContents = theStarFile.readlines()
+        self.assertNotEquals(-1, starFileContents[0].find("Alpheratz\t01/01/17\t357d41.7\t29d10.9\n"), 
+                             "Minor:  first setStar entry is incorrect")
+        theStarFile.close()
         
     def test500_910_ShouldRaiseExceptionOnNonStringFileName(self):
 #         expectedDiag = self.className + "setSightingFile:"
