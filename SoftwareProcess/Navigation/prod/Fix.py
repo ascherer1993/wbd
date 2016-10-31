@@ -5,6 +5,8 @@ Created on Oct 12, 2016
 '''
 
 import Navigation.prod.SightingsList as SightingsList
+import Navigation.prod.AriesEntriesList as AriesEntriesList
+import Navigation.prod.StarsList as StarsList
 import Navigation.prod.LogFile as LogFile
 import Navigation.prod.Angle as Angle
 import os.path
@@ -29,6 +31,8 @@ class Fix():
             
             self.logFileInstance = LogFile.LogFile(logFile)
             self.SightingList = None
+            self.AriesEntriesList = None
+            self.StarsList = None
             
             
         except:
@@ -63,7 +67,63 @@ class Fix():
         self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + sightingFile)
         
         return sightingFile
-        pass
+    
+    def setAriesFile(self, ariesFile = None):
+        if ariesFile == None:
+            raise ValueError("Fix.setAriesFile:  setAriesFile requires a file name.")
+        
+        if not isinstance(ariesFile, str):
+            raise ValueError("Fix.setAriesFile:  The parameter you have provided is not of type string.")
+
+        if len(ariesFile) < 1:
+            raise ValueError("Fix.setAriesFile:  The parameter you have provided is not a long enough filename.")
+        
+        try:
+            fileNameSplit = ariesFile.split('.')
+            if fileNameSplit[1] != 'txt':
+                raise ValueError("Fix.setAriesFile:  The filename you have provided does not have the extension \'.txt\'.")
+            
+            
+            if not os.path.isfile('../Resources/' + ariesFile):
+                raise ValueError("Fix.setAriesFile:  The specified file could not be found.")
+            
+            self.AriesEntriesList = AriesEntriesList.AriesEntriesList(ariesFile)
+            
+        except:
+            raise ValueError("Fix.setAriesFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
+        
+        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + ariesFile)
+        
+        return ariesFile
+    
+    def setStarFile(self, starFile = None):
+        if starFile == None:
+            raise ValueError("Fix.setStarFile:  setAriesFile requires a file name.")
+        
+        if not isinstance(starFile, str):
+            raise ValueError("Fix.setStarFile:  The parameter you have provided is not of type string.")
+
+        if len(starFile) < 1:
+            raise ValueError("Fix.setStarFile:  The parameter you have provided is not a long enough filename.")
+        
+        try:
+            fileNameSplit = starFile.split('.')
+            if fileNameSplit[1] != 'xml':
+                raise ValueError("Fix.setStarFile:  The filename you have provided does not have the extension \'.txt\'.")
+            
+            
+            if not os.path.isfile('../Resources/' + starFile):
+                raise ValueError("Fix.setStarFile:  The specified file could not be found.")
+            
+            self.StarsList = StarsList.StarsList(starFile)
+            
+        except:
+            raise ValueError("Fix.setStarFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
+        
+        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + starFile)
+        
+        return starFile
+    
     
     def getSightings(self):
         try:

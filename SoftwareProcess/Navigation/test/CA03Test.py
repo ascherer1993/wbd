@@ -575,9 +575,9 @@ class TestFix(unittest.TestCase):
         'Minor:  '
         theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
         try:
-            pass
-            #result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-            #self.assertEquals(result, "CA02_200_ValidStarSightingFile.xml")
+            
+            result = theFix.setAriesFile("aries.txt")
+            #self.assertEquals(result, "") filepath
         except:
             pass
             #self.fail("Minor: incorrect keyword specified in setSighting parm")
@@ -585,21 +585,21 @@ class TestFix(unittest.TestCase):
 
     def test400_020_ShouldSetValidAriesFile(self):
         theFix = F.Fix()
-#          result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-#          self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
-#          theLogFile = open(self.DEFAULT_LOG_FILE, "r")
-#          logFileContents = theLogFile.readlines()
-#          self.assertNotEquals(-1, logFileContents[-1].find(self.logSightingString), 
-#                               "Minor:  first setSighting logged entry is incorrect")
-#          theLogFile.close()
+        result = theFix.setAriesFile("aries.txt")
+        #self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
+        theAriesFile = open("../Resources/aries.txt", "r")
+        ariesFileContents = theAriesFile.readlines()
+        self.assertNotEquals(-1, ariesFileContents[0].find("01/01/17\t0\t100d05.4\n"), 
+                             "Minor:  first aries entry is incorrect")
+        theAriesFile.close()
         
     def test400_910_ShouldRaiseExceptionOnNonStringFileName(self):
-#         expectedDiag = self.className + "setSightingFile:"
-#         theFix = F.Fix()
-#         with self.assertRaises(ValueError) as context:
-#             theFix.setSightingFile(42)
-#         self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
-#                           "Minor:  failure to check for non-string sighting file name")
+        expectedDiag = self.className + "setAriesFile:"
+        theFix = F.Fix()
+        with self.assertRaises(ValueError) as context:
+            theFix.setAriesFile(42)
+        self.assertEquals(expectedDiag, context.exception.args[0][0:len(expectedDiag)],
+                          "Minor:  failure to check for non-string sighting file name")
         pass  
         
     def test400_920_ShouldRaiseExceptionOnFileLengthError(self):
