@@ -9,6 +9,7 @@ import Navigation.prod.Angle as A
 import Navigation.prod.AriesEntry as AE
 import time as T
 import datetime
+from Navigation.prod.Sighting import Sighting
 
 class AriesEntriesList():
     
@@ -20,26 +21,37 @@ class AriesEntriesList():
             raise ValueError("AriesSightingsList.__init__:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         pass
     
-    def getGreenWichHourAngle(self, sighting):
+    def getGreenWichHourAngle(self, ariesGHA1, ariesGHA2, seconds):
         pass
     
     def getGreenWichHourAngleFromFile(self, sighting):
-        self._createAriesSightingList()
-        for ariesEntry in self.ariesEntriesList:
-            ariesDate = ariesEntry.getDate()
-            dateArray = ariesDate.split('/')
-            dateArray[2] = "20" + dateArray[2]
-            ariesDate = dateArray[0] + '/' + dateArray[1] + '/' + dateArray[2]
-            if self._isDateFormat(ariesDate):
-                ariesDate = datetime.datetime.strptime(ariesDate, '%m/%d/%Y')
-                sightingDate = datetime.datetime.strptime(sighting.getDate(), '%Y-%m-%d')
-                if ariesDate == sightingDate:
-                    sightingTime = sighting.getTime()
-                    sightingTimeArray = sightingTime.split(':')
-                    if int(sightingTimeArray[0]) == ariesEntry.getHour():
-                        return ariesEntry.getGHA()
+        try:
+            self._createAriesSightingList()
+            ariesEntry = self._getClosestEntry(sighting)
+            return ariesEntry.getGHA()
+        except:
+            raise ValueError("AriesSightingsList.getGreenWichHourAngleFromFile:  Finding the closest result")
         
         pass
+    
+    def _getClosestEntry(self, sighting):
+        try:
+            self._createAriesSightingList()
+            for ariesEntry in self.ariesEntriesList:
+                ariesDate = ariesEntry.getDate()
+                dateArray = ariesDate.split('/')
+                dateArray[2] = "20" + dateArray[2]
+                ariesDate = dateArray[0] + '/' + dateArray[1] + '/' + dateArray[2]
+                if self._isDateFormat(ariesDate):
+                    ariesDate = datetime.datetime.strptime(ariesDate, '%m/%d/%Y')
+                    sightingDate = datetime.datetime.strptime(sighting.getDate(), '%Y-%m-%d')
+                    if ariesDate == sightingDate:
+                        sightingTime = sighting.getTime()
+                        sightingTimeArray = sightingTime.split(':')
+                        if int(sightingTimeArray[0]) == ariesEntry.getHour():
+                            return ariesEntry
+        except:
+            raise ValueError("AriesSightingsList._getClosestEntry:  There was a problem reading from the file")
     
     def _createAriesSightingList(self):
         try:
@@ -52,15 +64,11 @@ class AriesEntriesList():
                     ariesEntry = AE.AriesEntry(lineArray[0], int(lineArray[1]), lineArray[2])
                     self.ariesEntriesList.append(ariesEntry)
         except:
-            raise ValueError("AriesSightingsList.__init__:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
+            raise ValueError("AriesSightingsList._createAriesSightingList:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         
     
     def getAriesFileName(self):
-        return self.fileName
-    
-    def getRelevantAriesEntry(self):
-        pass
-    
+        return self.fileName    
 
     
     def _calculateAriesGreenWichHourAngle(self, gwh1, gwh2, seconds):

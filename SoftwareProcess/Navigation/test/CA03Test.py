@@ -821,10 +821,9 @@ class TestFix(unittest.TestCase):
 #                none
 #
 #            Happy path
-#                nominal case: returns seconds
+#                nominal case: returns Angle
 #            Sad path
 #                bad sighting
-#                file has not been set
 
     def test600_040_ShouldReturnCorrectAngle(self):
         angletest = Angle.Angle()
@@ -833,6 +832,36 @@ class TestFix(unittest.TestCase):
         ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
         GHA = ariesFile.getGreenWichHourAngleFromFile(sighting).getString()
         self.assertEquals(GHA, "130d10.4")
+        pass
+    
+#    Unit Test: 600_050
+#        Analysis - _calculateAriesGreenWichHourAngle()
+#            inputs
+#                ariesAngle1, ariesAngle2, seconds
+#            outputs
+#                AriesAngle
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: returns Angle
+#            Sad path
+#                bad sighting
+#                file has not been set
+
+    def test600_050_ShouldReturnCorrectAngle(self):
+        angletest = Angle.Angle()
+        #01/01/17 2  130d10.4
+        sighting1 = Sighting.Sighting("test", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
+        sighting2 = Sighting.Sighting("test", "2017-01-01", "3:30:00", angletest.getString(), 0, 72, 100, "Natural")
+        ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
+        GHA1 = ariesFile.getGreenWichHourAngleFromFile(sighting1).getString()
+        GHA2 = ariesFile.getGreenWichHourAngleFromFile(sighting2).getString()
+        observation = Angle.Angle()
+        entry = AriesEntry.AriesEntry("01/01/17", 2, observation.getString())
+        seconds = ariesFile._calculateSecondsSinceSighting(sighting1, entry)
+        ariesGHA = ariesFile.getGreenWichHourAngle(GHA1, GHA2, seconds)
+        self.assertEquals(ariesGHA.getString(), "7d31.2")
         pass
 
 if __name__ == "__main__":
