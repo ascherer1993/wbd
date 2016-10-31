@@ -96,7 +96,8 @@ class Fix():
         
         self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + ariesFile)
         
-        return ariesFile
+        returnPath = os.path.abspath('../Resources/' + ariesFile)
+        return returnPath
     
     def setStarFile(self, starFile = None):
         if starFile == None:
