@@ -586,8 +586,9 @@ class TestFix(unittest.TestCase):
 
     def test400_020_ShouldSetValidAriesFile(self):
         theFix = F.Fix()
+        expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\aries.txt'
         result = theFix.setAriesFile("aries.txt")
-        #self.assertEquals(result,"CA02_200_ValidStarSightingFile.xml")
+        self.assertEquals(result, expectedPath)
         theAriesFile = open("../Resources/aries.txt", "r")
         ariesFileContents = theAriesFile.readlines()
         self.assertNotEquals(-1, ariesFileContents[0].find("01/01/17\t0\t100d05.4\n"), 
@@ -671,18 +672,18 @@ class TestFix(unittest.TestCase):
         'Minor:  '
         theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
         try:
-            pass
-            #result = theFix.setSightingFile("CA02_200_ValidStarSightingFile.xml")
-            #self.assertEquals(result, "CA02_200_ValidStarSightingFile.xml")
+            expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\stars.txt'
+            result = theFix.setStarFile("stars.txt")
+            self.assertEquals(result, expectedPath)
         except:
-            pass
-            #self.fail("Minor: incorrect keyword specified in setSighting parm")
+            self.fail("Minor: incorrect keyword specified in setStar parm")
         self.cleanup()   
 
     def test500_020_ShouldSetValidStarFile(self):
         theFix = F.Fix()
+        expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\stars.txt'
         result = theFix.setStarFile("stars.txt")
-        #self.assertEquals(result,"stars.txt")
+        self.assertEquals(result, expectedPath)
         theStarFile = open("../Resources/stars.txt", "r")
         starFileContents = theStarFile.readlines()
         self.assertNotEquals(-1, starFileContents[0].find("Alpheratz\t01/01/17\t357d41.7\t29d10.9\n"), 
