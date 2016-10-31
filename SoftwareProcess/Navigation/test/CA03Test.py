@@ -577,12 +577,11 @@ class TestFix(unittest.TestCase):
         'Minor:  '
         theFix = F.Fix(logFile=self.RANDOM_LOG_FILE)
         try:
-            
+            expectedPath = 'D:\\Documents\\Programming\\Eclipse Repositories\\SoftwareProcess\\SoftwareProcess\\Navigation\\Resources\\aries.txt'
             result = theFix.setAriesFile("aries.txt")
-            #self.assertEquals(result, "") filepath
+            self.assertEquals(result, expectedPath)
         except:
-            pass
-            #self.fail("Minor: incorrect keyword specified in setSighting parm")
+            self.fail("Minor: incorrect keyword specified in setStar parm")
         self.cleanup()   
 
     def test400_020_ShouldSetValidAriesFile(self):
