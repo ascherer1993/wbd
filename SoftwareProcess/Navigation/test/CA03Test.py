@@ -860,7 +860,7 @@ class TestFix(unittest.TestCase):
         observation = Angle.Angle()
         entry = AriesEntry.AriesEntry("01/01/17", 2, observation.getString())
         seconds = ariesFile._calculateSecondsSinceSighting(sighting1, entry)
-        ariesGHA = ariesFile.getGreenWichHourAngle(GHA1, GHA2, seconds)
+        ariesGHA = ariesFile.getGreenWichHourAngle(sighting1)
         self.assertEquals(ariesGHA.getString(), "7d31.2")
         pass
 

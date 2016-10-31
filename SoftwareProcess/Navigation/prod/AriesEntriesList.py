@@ -21,8 +21,27 @@ class AriesEntriesList():
             raise ValueError("AriesSightingsList.__init__:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         pass
     
-    def getGreenWichHourAngle(self, ariesGHA1, ariesGHA2, seconds):
-        pass
+    def getGreenWichHourAngle(self, sighting):
+        sighting1 = sighting
+        self._createAriesSightingList()
+        GHA1 = self.getGreenWichHourAngleFromFile(sighting1)
+        
+        sightingTimeArray = sighting.getTime().split(':')
+        newHourValue = int(sightingTimeArray[0]) + 1
+        sightingTwoTime = str(newHourValue) + ":" + sightingTimeArray[1] + ":" + sightingTimeArray[2]
+        sighting2 = S.Sighting(sighting.getBody(), sighting.getDate(), sightingTwoTime, sighting.getObservation().getString(), sighting.getHeight(), sighting.getTemperature(), sighting.getPressure(), sighting.getHorizon())
+        GHA2 = self.getGreenWichHourAngleFromFile(sighting2)
+        
+        entry = self._getClosestEntry(sighting)
+        seconds = self._calculateSecondsSinceSighting(sighting, entry)
+        
+        
+        
+        returnValue = abs(GHA1.subtract(GHA2)) * (seconds / 3600)
+        returnAngle = A.Angle()
+        returnAngle.setDegrees(returnValue)
+        
+        return returnAngle
     
     def getGreenWichHourAngleFromFile(self, sighting):
         try:
