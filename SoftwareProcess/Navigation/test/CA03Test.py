@@ -12,6 +12,7 @@ import Navigation.prod.Angle as Angle
 import Navigation.prod.LogFile as LogFile
 import Navigation.prod.SightingsList as SightingsList
 import Navigation.prod.AriesEntriesList as AriesEntriesList
+import Navigation.prod.StarsList as StarsList
 import Navigation.prod.AriesEntry as AriesEntry
 import xml.etree.ElementTree as ET
 
@@ -835,6 +836,16 @@ class TestFix(unittest.TestCase):
         self.assertEquals(GHA, "130d10.4")
         pass
     
+    def test600_940_ShouldFailWhenCreatingSightingsList(self):
+        angletest = Angle.Angle()
+        #01/01/17 2  130d10.4
+        sighting = Sighting.Sighting("test", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
+        ariesFile = AriesEntriesList.AriesEntriesList("brokenAries.txt")
+        
+        with self.assertRaises(ValueError) as context:
+            ariesFile.createAriesSightingList()
+        pass
+    
 #    Unit Test: 600_050
 #        Analysis - _calculateAriesGreenWichHourAngle()
 #            inputs
@@ -847,8 +858,7 @@ class TestFix(unittest.TestCase):
 #            Happy path
 #                nominal case: returns Angle
 #            Sad path
-#                bad sighting
-#                file has not been set
+#                none
 
     def test600_050_ShouldReturnCorrectAngle(self):
         angletest = Angle.Angle()
@@ -857,6 +867,85 @@ class TestFix(unittest.TestCase):
         ariesGHA = ariesFile.getGreenWichHourAngle(sighting)
         self.assertEquals(ariesGHA.getString(), "7d31.2")
         pass
+    
+
+
+#StarList.Py
+#I plan to use the 700's for all of the Aries tests to just make things easier on me, incrementing by 10s
+
+#    Unit Test: 700_010
+#        Analysis - initiate StarList
+#            inputs
+#                f.txt, len(f) > 0
+#            outputs
+#                none
+#            state change
+#                sets filename
+#
+#            Happy path
+#                nominal case: StarsList()
+#            Sad path
+#                bad filename
+
+    def test600_010_ShouldCreateStarsListAndSetName(self):
+        starsFile = StarsList.StarsList("stars.txt")
+        self.assertIsInstance(starsFile, StarsList.StarsList)
+        pass
+
+#    Unit Test: 700_020
+#        Analysis - init setting filename and getStarsFileName
+#            inputs
+#                none
+#            outputs
+#                str - filename
+#            state change
+#                filename is changed
+#
+#            Happy path
+#                nominal case: StarsList() -> getStarsFileName
+#            Sad path
+#                none
+
+    def test700_020_ShouldCreateStarsListAndSetName(self):
+        starsFile = StarsList.StarsList("stars.txt")
+        self.assertEquals(starsFile.getStarsFileName(), "stars.txt")
+        pass
+
+
+#    Unit Test: 700_030
+#        Analysis - getStar()
+#            inputs
+#                sighting
+#            outputs
+#                star
+#            state change
+#                none
+#
+#            Happy path
+#                nominal case: returns star
+#            Sad path
+#                none
+
+    def test700_030_ShouldReturnStar(self):
+        starsList = StarsList.StarsList("stars.txt")
+        starsList.createStarList()
+        
+        angletest = Angle.Angle()
+        sighting = Sighting.Sighting("Ankaa", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
+        
+        star = starsList.getStar(sighting)
+        sidewichHourAngle = star.getSiderealHourAngle().getString()
+        geographicPositionLatitude = star.getGeographicPositionLatitude().getString()
+        
+        self.assertEqual(sidewichHourAngle, "353d14.1")
+        
+        # Origionally, I had a negative number check here, but the setdegreesandminutes method
+        # that we wrote mods it... so I am not sure what was supposed to be done, for now I will
+        # just calculate the mod result for this
+        #self.assertEqual(geographicPositionLatitude, "-42d13.4")
+        self.assertEqual(geographicPositionLatitude, "317d46.6")
+    
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

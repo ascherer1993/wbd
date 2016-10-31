@@ -16,6 +16,10 @@ class AriesEntriesList():
     def __init__(self, txtFile):
         self.ariesEntriesList = []
         try :
+            fileNameSplit = txtFile.split('.')
+            if fileNameSplit[1] != 'txt':
+                raise ValueError("AriesEntriesList.__init__:  The filename you have provided does not have the extension \'.txt\'.")
+            
             self.fileName = txtFile
         except:
             raise ValueError("AriesSightingsList.__init__:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
@@ -53,8 +57,10 @@ class AriesEntriesList():
                     lineArray = fileLine.split("\t")
                     ariesEntry = AE.AriesEntry(lineArray[0], int(lineArray[1]), lineArray[2])
                     self.ariesEntriesList.append(ariesEntry)
+                else:
+                    raise ValueError("AriesSightingsList.createAriesSightingList:  A date was in the wrong format")
         except:
-            raise ValueError("AriesSightingsList._createAriesSightingList:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
+            raise ValueError("AriesSightingsList.createAriesSightingList:  The txt file could not be loaded correctly. The file may not exist or something else may have gone wrong.")
         
     
     def getAriesFileName(self):
@@ -84,6 +90,7 @@ class AriesEntriesList():
                         sightingTimeArray = sightingTime.split(':')
                         if int(sightingTimeArray[0]) == ariesEntry.getHour():
                             return ariesEntry
+            return -1
         except:
             raise ValueError("AriesSightingsList._getClosestEntry:  There was a problem reading from the file")
     
