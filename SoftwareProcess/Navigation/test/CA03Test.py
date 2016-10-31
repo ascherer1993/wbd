@@ -808,7 +808,7 @@ class TestFix(unittest.TestCase):
         sighting = Sighting.Sighting("test", "2005-09-15", "13:30:00", observation.getString(), 0, 72, 100, "Natural")
         entry = AriesEntry.AriesEntry("09/15/05", 13, observation.getString())
         ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
-        self.assertEquals(ariesFile.calculateSecondsSinceSighting(sighting, entry), 1800)
+        self.assertEquals(ariesFile._calculateSecondsSinceSighting(sighting, entry), 1800)
         pass
     
 #    Unit Test: 600_040
@@ -831,7 +831,8 @@ class TestFix(unittest.TestCase):
         #01/01/17 2  130d10.4
         sighting = Sighting.Sighting("test", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
         ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
-        self.assertEquals(ariesFile.getGreenWichHourAngleFromFile(sighting).getString(), "130d10.4")
+        GHA = ariesFile.getGreenWichHourAngleFromFile(sighting).getString()
+        self.assertEquals(GHA, "130d10.4")
         pass
 
 if __name__ == "__main__":

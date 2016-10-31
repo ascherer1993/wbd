@@ -26,3 +26,5 @@ class AriesEntry():
     
     def getGHA(self):
         return self.greenwichHourAngle
+    
+    
