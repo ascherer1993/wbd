@@ -851,16 +851,9 @@ class TestFix(unittest.TestCase):
 
     def test600_050_ShouldReturnCorrectAngle(self):
         angletest = Angle.Angle()
-        #01/01/17 2  130d10.4
-        sighting1 = Sighting.Sighting("test", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
-        sighting2 = Sighting.Sighting("test", "2017-01-01", "3:30:00", angletest.getString(), 0, 72, 100, "Natural")
+        sighting = Sighting.Sighting("test", "2017-01-01", "2:30:00", angletest.getString(), 0, 72, 100, "Natural")
         ariesFile = AriesEntriesList.AriesEntriesList("aries.txt")
-        GHA1 = ariesFile.getGreenWichHourAngleFromFile(sighting1).getString()
-        GHA2 = ariesFile.getGreenWichHourAngleFromFile(sighting2).getString()
-        observation = Angle.Angle()
-        entry = AriesEntry.AriesEntry("01/01/17", 2, observation.getString())
-        seconds = ariesFile._calculateSecondsSinceSighting(sighting1, entry)
-        ariesGHA = ariesFile.getGreenWichHourAngle(sighting1)
+        ariesGHA = ariesFile.getGreenWichHourAngle(sighting)
         self.assertEquals(ariesGHA.getString(), "7d31.2")
         pass
 

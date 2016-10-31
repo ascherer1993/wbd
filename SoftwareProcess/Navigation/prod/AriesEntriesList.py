@@ -35,9 +35,9 @@ class AriesEntriesList():
         entry = self._getClosestEntry(sighting)
         seconds = self._calculateSecondsSinceSighting(sighting, entry)
         
+        newAngle = GHA2.getDegrees() - GHA1.getDegrees()
         
-        
-        returnValue = abs(GHA1.subtract(GHA2)) * (seconds / 3600)
+        returnValue = abs(newAngle) * (seconds / 3600.0)
         returnAngle = A.Angle()
         returnAngle.setDegrees(returnValue)
         
