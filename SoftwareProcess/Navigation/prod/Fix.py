@@ -125,7 +125,8 @@ class Fix():
         
         self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + starFile)
         
-        return starFile
+        returnPath = os.path.abspath('../Resources/' + starFile)
+        return returnPath
     
     
     def getSightings(self):
