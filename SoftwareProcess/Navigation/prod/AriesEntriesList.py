@@ -21,6 +21,8 @@ class AriesEntriesList():
     def getGreenWichHourAngle(self, sighting):
         pass
     
+    def getGreenWichHourAngleFromFile(self, sighting):
+        pass
     
     def getAriesFileName(self):
         return self.fileName
@@ -30,10 +32,10 @@ class AriesEntriesList():
     
 
     
-    def calculateAriesGreenWichHourAngle(self, gwh1, gwh2, seconds):
+    def _calculateAriesGreenWichHourAngle(self, gwh1, gwh2, seconds):
         pass
     
-    def calculateSecondsSinceSighting(self, sighting, entry):
+    def _calculateSecondsSinceSighting(self, sighting, entry):
         sightingTime = sighting.getTime()
         sightingTimeArray = sightingTime.split(':')
         sightingTotalSeconds = int(sightingTimeArray[0])*3600 + int(sightingTimeArray[1])*60 + int(sightingTimeArray[2])
