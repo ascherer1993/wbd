@@ -63,6 +63,38 @@ class Angle():
         
         pass
     
+    # Sets angle of the Angle object using a string specified in a certain format
+    def setDegreesAndMinutesAllowNegatives(self, angleString):
+        
+        angleString = angleString.strip()  # This was done to strip out white space before the regular expression
+        
+        # For this project I got to learn regex! 
+        # Below, the string parameter is checked to make sure that it matches very specific requirements.
+        # I then find all instances of those requirements in the string, and make sure it matches the original string.
+        # If it does, the parameter is in the right format and can be used
+        regex = "^(-?[0-9]+d[0-9]+\.?[0-9]?)?"  #    xdy.y : x is any positive or negative number that represents the degrees and the y's are the minutes
+        regexMatch = re.findall(regex, angleString)
+        
+        # Checks to make sure there is only one exact match
+        if angleString == "" or len(regexMatch) != 1 or len(regexMatch[0]) != len(angleString) :
+            raise ValueError("Angle.setDegreesAndMinutes:  The correct format was not provided. Please provide a format that matches #d# or #d#.#")
+        
+        # Splits string at the symbol d
+        newString = angleString.split('d')
+        
+        # Converts from minutes into decimal to store
+        minuteInDecimal = float(newString[1]) / 60
+        # Stores one decimal place mod 360
+        floatedDegrees = float(newString[0])
+        
+        # This handles negative degrees
+        if floatedDegrees < 0 :
+            self.angle = floatedDegrees - minuteInDecimal
+        else :    
+            self.angle = floatedDegrees + minuteInDecimal
+        return self.angle
+    
+    
     # Adds an angle to this angle object, stores the value, and returns the result
     def add(self, angle= None):
         if angle == None:

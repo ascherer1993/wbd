@@ -942,8 +942,8 @@ class TestFix(unittest.TestCase):
         # Origionally, I had a negative number check here, but the setdegreesandminutes method
         # that we wrote mods it... so I am not sure what was supposed to be done, for now I will
         # just calculate the mod result for this
-        #self.assertEqual(geographicPositionLatitude, "-42d13.4")
-        self.assertEqual(geographicPositionLatitude, "317d46.6")
+        self.assertEqual(geographicPositionLatitude, "-42d13.4")
+        #self.assertEqual(geographicPositionLatitude, "317d46.6")
     
 
 
