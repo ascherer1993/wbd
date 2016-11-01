@@ -171,13 +171,11 @@ class Fix():
                 geographicPositionLongitudeInDecimal = siderealHourAngle.getDegrees() + GWH.getDegrees()
                 geographicPositionLongitude = Angle.Angle()
                 geographicPositionLongitude.setDegrees(geographicPositionLongitudeInDecimal)
-                geographicPositionLongitude = geographicPositionLongitude.getString()
-                self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitude)
+                geographicPositionLongitudeString = geographicPositionLongitude.getString()
+                self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString)
                     
             except:
                 failedSightings = failedSightings + 1
-        try:        
-            self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings))
-        except:
-            test = 1 + 23
+                
+        self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings))
         pass  

@@ -12,9 +12,7 @@ class AriesEntry():
     
     def __init__(self, date, hour, greenwichHourAngle):
         self.date = date
-        
         self.hour = hour
-        
         self.greenwichHourAngle = A.Angle()
         self.greenwichHourAngle.setDegreesAndMinutesAllowNegatives(greenwichHourAngle)
         
