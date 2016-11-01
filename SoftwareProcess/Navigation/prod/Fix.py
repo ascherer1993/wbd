@@ -1,7 +1,7 @@
 '''
 Created on Oct 12, 2016
 
-@author: Aaron
+@author: Aaron Scherer
 '''
 
 import Navigation.prod.SightingsList as SightingsList
