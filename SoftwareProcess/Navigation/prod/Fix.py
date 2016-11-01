@@ -145,25 +145,39 @@ class Fix():
         pass
     
     def writeSightingsToLog(self, sightings):
+        failedSightings = 0
         for sighting in sightings:
-            adjustedAltitude = Angle.Angle()
-            adjustedAltitudeValue = sighting.getAdjustedAltitude()
-            if adjustedAltitudeValue != False:
-                adjustedAltitude.setDegrees(adjustedAltitudeValue)
+            try:
+                
+                adjustedAltitude = Angle.Angle()
+                adjustedAltitudeValue = sighting.getAdjustedAltitude()
+                if adjustedAltitudeValue != False:
+                    adjustedAltitude.setDegrees(adjustedAltitudeValue)
+                    adjustedAltitudeString = adjustedAltitude.getString().strip()
+                else:
+                    adjustedAltitudeString = "NA"
+                adjustedAltitude.setDegrees(sighting.getAdjustedAltitude())
+                body = sighting.getBody().strip()
+                date = sighting.getDate().strip()
+                time = sighting.getTime().strip()
                 adjustedAltitudeString = adjustedAltitude.getString().strip()
-            else:
-                adjustedAltitudeString = "NA"
-            adjustedAltitude.setDegrees(sighting.getAdjustedAltitude())
-            body = sighting.getBody().strip()
-            date = sighting.getDate().strip()
-            time = sighting.getTime().strip()
-            adjustedAltitudeString = adjustedAltitude.getString().strip()
-            
-#             
-#             star = self.StarsList.getStar(sighting)
-#             geographicPositionLatitude = star.getGeographicPositionLatitude()
-#             siderealHourAngle = star.getSiderealHourAngle()
-#             GWH = self.AriesEntriesList.getGreenWichHourAngle(sighting)
-            
-            self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString)
+                
+                
+                star = self.StarsList.getStar(sighting)
+                
+                geographicPositionLatitude = star.getGeographicPositionLatitude().getString()
+                siderealHourAngle = star.getSiderealHourAngle()  
+                GWH = self.AriesEntriesList.getGreenWichHourAngle(sighting)
+                geographicPositionLongitudeInDecimal = siderealHourAngle.getDegrees() + GWH.getDegrees()
+                geographicPositionLongitude = Angle.Angle()
+                geographicPositionLongitude.setDegrees(geographicPositionLongitudeInDecimal)
+                geographicPositionLongitude = geographicPositionLongitude.getString()
+                self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitude)
+                    
+            except:
+                failedSightings = failedSightings + 1
+        try:        
+            self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings))
+        except:
+            test = 1 + 23
         pass  
