@@ -94,9 +94,8 @@ class Fix():
         except:
             raise ValueError("Fix.setAriesFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
         
-        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + ariesFile)
-        
         returnPath = os.path.abspath('../Resources/' + ariesFile)
+        self.logFileInstance.writeToLogEntry("Aries file:\t" + returnPath)
         return returnPath
     
     def setStarFile(self, starFile = None):
@@ -123,13 +122,15 @@ class Fix():
         except:
             raise ValueError("Fix.setStarFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
         
-        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + starFile)
-        
         returnPath = os.path.abspath('../Resources/' + starFile)
+        self.logFileInstance.writeToLogEntry("Star file:\t" + returnPath)
         return returnPath
     
     
     def getSightings(self):
+        if self.SightingList == None or self.AriesEntriesList == None or self.StarsList == None:
+            raise ValueError("Fix.getSightings:  The sightings file, aries file, or star file has not been set.")
+        
         try:
             
             self.writeSightingsToLog(self.SightingList.getSightingsList())
@@ -157,6 +158,12 @@ class Fix():
             date = sighting.getDate().strip()
             time = sighting.getTime().strip()
             adjustedAltitudeString = adjustedAltitude.getString().strip()
+            
+#             
+#             star = self.StarsList.getStar(sighting)
+#             geographicPositionLatitude = star.getGeographicPositionLatitude()
+#             siderealHourAngle = star.getSiderealHourAngle()
+#             GWH = self.AriesEntriesList.getGreenWichHourAngle(sighting)
             
             self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString)
         pass  

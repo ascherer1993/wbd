@@ -270,6 +270,8 @@ class TestFix(unittest.TestCase):
         expectedResult = ("0d0.0", "0d0.0")
         theFix = F.Fix()
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         result = theFix.getSightings()
         self.assertTupleEqual(expectedResult, result, 
                               "Minor:  incorrect return value from getSightings")
@@ -278,6 +280,8 @@ class TestFix(unittest.TestCase):
         testFile = "CA02_300_ValidWithMixedIndentation.xml"
         theFix = F.Fix()
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         try:
             theFix.getSightings()
             self.assertTrue(True)
@@ -289,6 +293,8 @@ class TestFix(unittest.TestCase):
         targetStringList = ["Aldebaran", "2016-03-01", "23:40:01"]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -313,6 +319,8 @@ class TestFix(unittest.TestCase):
             ]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -338,6 +346,8 @@ class TestFix(unittest.TestCase):
             ]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -358,9 +368,13 @@ class TestFix(unittest.TestCase):
         testFile = "CA02_300_ValidWithNoSightings.xml"
         targetString1 = "End of sighting file"
         targetString2 = "Start of sighting file"
+        targetString3 = "Aries file:"
+        targetString4 = "Star file:"
         
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -372,7 +386,9 @@ class TestFix(unittest.TestCase):
                            "log file does not contain 'end of sighting file' entry")
         self.assertLess(1, endOfSightingFileIndex,
                            "log file does not contain sufficient entries")
-        self.assertTrue((targetString2 in logFileContents[endOfSightingFileIndex - 1]))
+        self.assertTrue((targetString2 in logFileContents[endOfSightingFileIndex - 3]))
+        self.assertTrue((targetString3 in logFileContents[endOfSightingFileIndex - 2]))
+        self.assertTrue((targetString4 in logFileContents[endOfSightingFileIndex - 1]))
         self.cleanup()   
         
     def test300_070_ShouldIgnoreExtraneousTags(self):       
@@ -382,6 +398,8 @@ class TestFix(unittest.TestCase):
             ]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -404,6 +422,8 @@ class TestFix(unittest.TestCase):
         targetStringList = ["Hadar", "2016-03-01", "23:40:01", "29d55.7"]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -426,6 +446,8 @@ class TestFix(unittest.TestCase):
         targetStringList = ["Hadar", "2016-03-01", "23:40:01", "29d55.7"]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -448,6 +470,8 @@ class TestFix(unittest.TestCase):
         targetStringList = ["Hadar", "2016-03-01", "23:40:01", "29d59.9"]
         theFix = F.Fix(self.RANDOM_LOG_FILE)
         theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
         theFix.getSightings()
         
         theLogFile = open(self.RANDOM_LOG_FILE, "r")
@@ -463,6 +487,35 @@ class TestFix(unittest.TestCase):
                                          "Major:  Log entry is not correct for getSightings")
         self.assertEquals(1, sightingCount)
         self.cleanup()  
+
+    def test300_100_ShouldWriteAltitudeAndPositionToLogFile(self):
+        #chedar    01/01/17    349d38.4    56d37.7
+
+        testFile = "CA03_300_CheckCalculatedAngles.xml"
+        #9d59.9
+        #sha 349d38.4
+        #
+        targetStringList = ["Schedar", "2017-01-01", "02:30:00", "9d54.7", "56d37.7", ""]
+        theFix = F.Fix(self.RANDOM_LOG_FILE)
+        theFix.setSightingFile(testFile)
+        theFix.setAriesFile("aries.txt")
+        theFix.setStarFile('stars.txt')
+        theFix.getSightings()
+        
+        theLogFile = open(self.RANDOM_LOG_FILE, "r")
+        logFileContents = theLogFile.readlines()
+        theLogFile.close()
+        
+        sightingCount = 0
+        for logEntryNumber in range(0, len(logFileContents)):
+            if(logFileContents[logEntryNumber].find(targetStringList[0]) > -1):
+                sightingCount += 1
+                for target in targetStringList:
+                    self.assertNotEquals(-1, logFileContents[logEntryNumber].find(target), 
+                                         "Major:  Log entry is not correct for getSightings")
+        self.assertEquals(1, sightingCount)
+        self.cleanup()  
+        pass
 
     def test300_910_ShouldRaiseExceptionOnNotSettingSightingsFile(self):
         expectedDiag = self.className + "getSightings:"
