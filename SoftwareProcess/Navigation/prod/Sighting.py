@@ -76,6 +76,9 @@ class Sighting():
     def getTemperature(self):
         return self.temperature
     
+    def getPressure(self):
+        return self.pressure
+    
     def getHorizon(self):
         return self.horizon
     
