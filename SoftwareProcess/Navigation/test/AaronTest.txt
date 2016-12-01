@@ -1,0 +1,6 @@
+LOG:	2016-10-31 22:29:54.040000:	Start of log
+LOG:	2016-10-31 22:29:54.042000:	Start of sighting file:	CA03_300_CheckCalculatedAngles.xml
+LOG:	2016-10-31 22:29:54.045000:	Aries file:	D:\Documents\Programming\Eclipse Repositories\SoftwareProcess\SoftwareProcess\Navigation\Resources\aries.txt
+LOG:	2016-10-31 22:29:54.047000:	Star file:	D:\Documents\Programming\Eclipse Repositories\SoftwareProcess\SoftwareProcess\Navigation\Resources\stars.txt
+LOG:	2016-10-31 22:29:54.158000:	Schedar	2017-01-01	02:30:00	9d54.7	56d37.7	357d9.6
+LOG:	2016-10-31 22:29:54.160000:	End of sighting file:	CA03_300_CheckCalculatedAngles.xml
