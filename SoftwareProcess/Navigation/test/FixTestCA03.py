@@ -340,7 +340,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setAriesFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setAriesFile() is not returning abspath of file name")
 
 #----------
@@ -354,7 +354,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setAriesFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setAriesFile() is not returning abspath of file name")
  
 #----------
@@ -367,7 +367,7 @@ class TestFix(unittest.TestCase):
             logFileContents = theLogFile.readlines()
             self.assertNotEquals(-1, logFileContents[-1].find(self.ariesFileString), 
                                  "Major:  correct aries file string not being logged"),
-            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath(testFile)),
+            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath('../Resources/' + testFile)),
                                  "Minor:  correct aries file name not being logged") 
  
 #----------       
@@ -470,7 +470,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setStarFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setStarFile() is not returning abspath of file name")
 
 #----------
@@ -484,7 +484,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setStarFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setStarFile() is not returning abspath of file name")
  
 #----------
@@ -497,7 +497,7 @@ class TestFix(unittest.TestCase):
             logFileContents = theLogFile.readlines()
             self.assertNotEquals(-1, logFileContents[-1].find(self.starFileString), 
                                  "Major:  correct star file string not being logged"),
-            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath(testFile)),
+            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath('../Resources/' + testFile)),
                                  "Minor:  correct star file name not being logged") 
  
 #----------       
