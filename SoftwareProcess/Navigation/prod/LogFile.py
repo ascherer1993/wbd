@@ -29,7 +29,7 @@ class LogFile():
                 self.file = open(self.filePath, 'w')
             
             returnPath = os.path.abspath(self.filePath)
-            self.file.write("Log file:\t" + returnPath)
+            self.file.write("Log file:\t" + returnPath + "\n")
             
             self.file.close()
             
