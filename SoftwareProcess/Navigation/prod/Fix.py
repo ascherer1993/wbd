@@ -127,7 +127,7 @@ class Fix():
         return returnPath
     
     
-    def getSightings(self, assumedLatitude, assumedLongitude):
+    def getSightings(self, assumedLatitude = None, assumedLongitude = None):
         if self.SightingList == None or self.AriesEntriesList == None or self.StarsList == None:
             raise ValueError("Fix.getSightings:  The sightings file, aries file, or star file has not been set.")
         
