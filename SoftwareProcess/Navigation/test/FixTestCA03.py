@@ -631,6 +631,7 @@ class TestFix(unittest.TestCase):
             
 #---------- 
     def test300_030_ShouldLogOneSighting(self):
+        #THIS TEST HAS AN ERROR BECAUSE THE TEST DATA IS AT 23:40 and my program then tries to set up a sighting with the hour 24:40 which isn't a valid time
         'log one valid adjusted altitude'
         testFile = self.mapFileToTest("validOneStarSighting")
         targetStringList = ["Aldebaran", "2017-03-01", "23:40:01"]

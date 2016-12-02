@@ -65,15 +65,23 @@ class SightingsList():
 
             if xmlSighting.find("height") != None:
                 height = float(xmlSighting.find("height").text)
+            else:
+                height = 0.0
                 
             if xmlSighting.find("temperature") != None:
                 temperature = int(xmlSighting.find("temperature").text)
+            else:
+                temperature = 72
                 
             if xmlSighting.find("pressure") != None:
                 pressure = int(xmlSighting.find("pressure").text)
+            else:
+                pressure = 1010
                 
             if xmlSighting.find("horizon") != None:
                 horizon = xmlSighting.find("horizon").text
+            else:
+                horizon = 'natural'
         
             return Sighting.Sighting(body, date, time, observation, height, temperature, pressure, horizon)
             

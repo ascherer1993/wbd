@@ -67,6 +67,11 @@ class Sighting():
     def getTime(self):
         return self.time
     
+    def getDateTime(self):
+        dateArray = self.date.split('-')
+        timeArray = self.time.split(':')
+        return datetime.datetime(int(dateArray[0]), int(dateArray[1]), int(dateArray[2]), int(timeArray[0]), int(timeArray[1]), int(timeArray[2]))
+    
     def getObservation(self):
         return self.observation
     

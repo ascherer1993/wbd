@@ -30,10 +30,20 @@ class AriesEntriesList():
         self.createAriesSightingList()
         GHA1 = self._getGreenWichHourAngleFromFile(sighting1)
         
-        sightingTimeArray = sighting.getTime().split(':')
-        newHourValue = int(sightingTimeArray[0]) + 1
-        sightingTwoTime = str(newHourValue) + ":" + sightingTimeArray[1] + ":" + sightingTimeArray[2]
-        sighting2 = S.Sighting(sighting.getBody(), sighting.getDate(), sightingTwoTime, sighting.getObservation().getString(), sighting.getHeight(), sighting.getTemperature(), sighting.getPressure(), sighting.getHorizon())
+        #sightingTimeArray = sighting.getTime().split(':')
+        sightingDatetime = sighting.getDateTime()
+        
+        #Adds 1 hour
+        sighting2Datetime = sightingDatetime + datetime.timedelta(0, 3600)
+#         newHourValue = int(sightingTimeArray[0]) + datetime.timedelta(0,3)
+#         if newHourValue == 24:
+#             dateToChange = sighting.getDate()
+#             dateSplit = dateToChange.split('/')
+#             dateSplit[2] = dateSplit[2] 
+            
+        #sightingTwoTime = str(newHourValue) + ":" + sightingTimeArray[1] + ":" + sightingTimeArray[2]
+        
+        sighting2 = S.Sighting(sighting.getBody(), sighting2Datetime.strftime('%Y-%m-%d'), sighting2Datetime.strftime('%H:%M:%S'), sighting.getObservation().getString(), sighting.getHeight(), sighting.getTemperature(), sighting.getPressure(), sighting.getHorizon())
         GHA2 = self._getGreenWichHourAngleFromFile(sighting2)
         
         entry = self._getClosestEntry(sighting)
