@@ -70,6 +70,63 @@ class Test(unittest.TestCase):
                 pass
 
 
+#==================== Fix.__init__ ====================
+# 100 getSightings
+#    Analysis
+#        inputs:
+#            assumedLatitude: string, optional, has form h0d0.0 or 0d0.0, len >= 1        regression
+#            assumedLongitude: string, optional, has form h0d0.0 or 0d0.0, len >= 1        regression
+#        outputs:
+#            returns:  tuple containing assumed values                               regression
+#|           also:    writes "Log file: " + writes all sightings and caluclations to log     new to CA05
+#        Entry criterion:
+#            setSightingsFile must be called first#
+
+#    Happy tests:
+#        logFile:  
+#            test 010:    omit parm and receive back values
+#            test 020:    Parameters at 0d0.0        CA03
+#            test 030:    north hemisphere                
+#            test 040:    south hemisphere        CA03
+#            test 050:    correct number of sightings
+#            test 060:    Correct final values
+#            existing logfile  -> Fix("myLog.txt") (assuming myLog.txt exits)
+#    Sad tests:
+#        logFile:
+#            test 910:    out of range
+#            test 920:    invalid specifications (not h0d0.0)
+#            test 930:    files not set
+#
+#    NOTE: Previous tests check for a lot of the reading in so i will not touch it in this test file
+#    
+#+++++++++++++++++++ Happy Path Tests ++++++++++++++++++++  
+#----------      
+
+    def test300_010_ShouldReceiveEmptyParameters(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        #expectedResult = ("0d0.0", "0d0.0")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings()
+        
+
+
+#  helper methods
+    def indexInList(self, target, searchList):
+        for index in range(len(searchList)):
+            if(target in searchList[index]):
+                return index
+        return -1
+    
+    def mapFileToTest(self, target):
+        for item in self.testToFileMap:
+            if(item[0] == target):
+                return item[1]
+        return None
+
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

@@ -601,6 +601,8 @@ class TestFix(unittest.TestCase):
 #            sighting file not previously set
 #            star file not previously set
 #            aries file not previously set
+#
+
 #+++++++++++++++++++ Happy Path Tests ++++++++++++++++++++  
 #---------- 
     def test300_010_ShouldIgnoreMixedIndentation(self):
