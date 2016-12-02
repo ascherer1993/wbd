@@ -65,7 +65,7 @@ class Fix():
         except:
             raise ValueError("Fix.setSightingFile:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
         
-        self.logFileInstance.writeToLogEntry("Start of sighting file:\t" + sightingFile)
+        self.logFileInstance.writeToLogEntry("Sighting file:\t" + os.path.abspath('../Resources/' + sightingFile))
         
         returnPath = os.path.abspath('../Resources/' + sightingFile)
         return returnPath
