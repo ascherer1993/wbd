@@ -210,7 +210,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setSightingFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setSightingFile() is not returning abspath of file name")
 
 #----------
@@ -224,7 +224,7 @@ class TestFix(unittest.TestCase):
             self.fail("Minor: " + str(e))
         self.assertNotEquals(-1, result.find(testFile), 
                              "Major:  setSightingFile() is not returning file name")
-        self.assertNotEquals(-1, result.find(os.path.abspath(testFile)), 
+        self.assertNotEquals(-1, result.find(os.path.abspath('../Resources/' + testFile)), 
                              "Minor:  setSightingFile() is not returning abspath of file name")
  
 #----------
@@ -237,7 +237,7 @@ class TestFix(unittest.TestCase):
             logFileContents = theLogFile.readlines()
             self.assertNotEquals(-1, logFileContents[-1].find(self.starSightingString), 
                                  "Major:  correct sighting file string not being logged"),
-            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath(testFile)),
+            self.assertNotEquals(-1, logFileContents[-1].find(os.path.abspath('../Resources/' + testFile)),
                                  "Minor:  correct sighting file name not being logged") 
  
  #----------       
