@@ -166,7 +166,7 @@ class Fix():
                 star = self.StarsList.getStar(sighting)
                 
                 geographicPositionLatitude = star.getGeographicPositionLatitude().getString()
-                siderealHourAngle = star.getSiderealHourAngle()  
+                siderealHourAngle = star.getSiderealHourAngle() 
                 GWH = self.AriesEntriesList.getGreenWichHourAngle(sighting)
                 geographicPositionLongitudeInDecimal = siderealHourAngle.getDegrees() + GWH.getDegrees()
                 geographicPositionLongitude = Angle.Angle()

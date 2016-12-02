@@ -51,7 +51,7 @@ class AriesEntriesList():
         
         newAngle = GHA2.getDegrees() - GHA1.getDegrees()
         
-        returnValue = abs(newAngle) * (seconds / 3600.0)
+        returnValue = GHA1.getDegrees() + abs(newAngle) * (seconds / 3600.0)
         returnAngle = A.Angle()
         returnAngle.setDegrees(returnValue)
         
