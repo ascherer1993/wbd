@@ -28,9 +28,12 @@ class LogFile():
             else:
                 self.file = open(self.filePath, 'w')
             
+            returnPath = os.path.abspath(self.filePath)
+            self.file.write("Log file:\t" + returnPath)
+            
             self.file.close()
             
-            self.writeToLogEntry("Start of log")
+#             self.writeToLogEntry("Start of log")
         except:
             raise ValueError("LogFile.__init__:  The filename you have provided is not valid or the file could not be modified for an unknown reason.")
     
