@@ -177,5 +177,5 @@ class Fix():
             except:
                 failedSightings = failedSightings + 1
                 
-        self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings))
+        self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings + self.SightingList.getFailedLoadCount()))
         pass  

@@ -11,6 +11,7 @@ class SightingsList():
     
     def __init__(self, xmlFile):
         self.sightingsList = []
+        self.failedLoadCount = 0
         try :
             self.fileName = xmlFile
         except:
@@ -25,7 +26,8 @@ class SightingsList():
             
             for sighting in fix:
                 sightingToAppend = self._extractSighting(sighting)
-                self.sightingsList.append(sightingToAppend)
+                if sightingToAppend != -1:
+                    self.sightingsList.append(sightingToAppend)
                 
             #sorts array by date
             self.sightingsList = sorted(self.sightingsList, key=lambda x: x.date, reverse = False)
@@ -37,6 +39,9 @@ class SightingsList():
     
     def getFileName(self):
         return self.fileName
+    
+    def getFailedLoadCount(self):
+        return self.failedLoadCount
     
     def _extractSighting(self, xmlSighting):
         height = None
@@ -54,11 +59,10 @@ class SightingsList():
             
             observation = xmlSighting.find("observation").text
             
-        except:
-            raise ValueError("SightingsList._extractSighting:  The xml file did not contain a mandatory tag (body, date, time, or observation)")
+#         except:
+#             raise ValueError("SightingsList._extractSighting:  The xml file did not contain a mandatory tag (body, date, time, or observation)")
             
 
-        try:
             if xmlSighting.find("height") != None:
                 height = float(xmlSighting.find("height").text)
                 
@@ -71,11 +75,12 @@ class SightingsList():
             if xmlSighting.find("horizon") != None:
                 horizon = xmlSighting.find("horizon").text
         
-        
+            return Sighting.Sighting(body, date, time, observation, height, temperature, pressure, horizon)
             
         except:
-            raise ValueError("SightingsList._extractSighting:  There was an error in one of the tags")
+            self.failedLoadCount += 1
+            return -1
 
     
-        return Sighting.Sighting(body, date, time, observation, height, temperature, pressure, horizon)
+        
     

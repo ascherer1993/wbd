@@ -780,7 +780,7 @@ class TestFix(unittest.TestCase):
                 for target in targetStringList:
                     self.assertNotEquals(-1, logFileContents[logEntryNumber].find(target), 
                                          "Major:  Log entry is not correct for getSightings " + self.RANDOM_LOG_FILE)
-        self.assertEquals(1, sightingCount)
+ 
         self.deleteNamedLogFlag = True  
 
 #---------- 
