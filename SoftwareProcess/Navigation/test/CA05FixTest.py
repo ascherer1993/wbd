@@ -85,10 +85,10 @@ class Test(unittest.TestCase):
 #    Happy tests:
 #        logFile:  
 #            test 010:    omit parm and receive back values
-#            test 020:    Parameters at 0d0.0        CA03
+#            test 020:    Parameters at 0d0.0        
 #            test 030:    north hemisphere                
-#            test 040:    south hemisphere        CA03
-#            test 050:    correct number of sightings
+#            test 040:    south hemisphere        
+#            test 050:    non zero latitude
 #            test 060:    Correct final values
 #            existing logfile  -> Fix("myLog.txt") (assuming myLog.txt exits)
 #    Sad tests:
@@ -112,7 +112,58 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)
         result = theFix.getSightings()
         
+    def test300_020_ShouldReceiveValidParametersAtEquator(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        #expectedResult = ("0d0.0", "0d0.0")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings("0d0.0", "0d0.0")
 
+    def test300_030_ShouldReceiveValidParametersInNHem(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        #expectedResult = ("0d0.0", "0d0.0")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings("N15d0.0", "0d0.0")
+
+    def test300_040_ShouldReceiveValidParametersInSHem(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        #expectedResult = ("0d0.0", "0d0.0")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings("S15d0.0", "0d0.0")
+        
+    def test300_050_ShouldReceiveValidParametersWithNonZeroLong(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        #expectedResult = ("0d0.0", "0d0.0")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings("0d0.0", "15d0.0")
+        
+        
+    def test300_060_ShouldReturnCorrectValues(self):
+        'parse sighting file that valid tags'
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        expectedResult = ("N29d6.8", "82d52.9")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)
+        result = theFix.getSightings("N27d59.5", "88d33.4")
+        self.assertTupleEqual(expectedResult, result, 
+                              "Minor:  incorrect return value from getSightings")
 
 #  helper methods
     def indexInList(self, target, searchList):
