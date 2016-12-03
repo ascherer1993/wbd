@@ -7,6 +7,8 @@ import unittest
 import uuid
 import os
 import Navigation.prod.Fix as F
+import Navigation.prod.ApproximateLocation as AL
+import Navigation.prod.Angle as Angle
 
 
 class Test(unittest.TestCase):
@@ -180,13 +182,30 @@ class Test(unittest.TestCase):
 #            adjustedAltitude: Angle object        regression
 #            
 #        outputs:
-#            returns:  tuple containing assumed values                               regression
-#|           also:    writes "Log file: " + writes all sightings and caluclations to log     new to CA05
-#        Entry criterion:
-#            setSightingsFile must be called first#
+#            returns:  Angle object representing distance adjustment                             regression
 
 
-
+    def test200_010_ShouldReturnDistanceAdjustment(self):
+        expectedResult = 20.61666
+        
+        geographicPositionLatitude = Angle.Angle()
+        geographicPositionLatitude.setDegrees(200)
+        
+        geographicPositionLongitude = Angle.Angle()
+        geographicPositionLongitude.setDegrees(100)
+        
+        assumedLatitude = Angle.Angle()
+        assumedLatitude.setDegrees(150)
+        
+        assumedLongitude = Angle.Angle()
+        assumedLongitude.setDegrees(50)
+    
+        
+        adjustedAltitude = Angle.Angle()
+        adjustedAltitude.setDegrees(125)
+        
+        result = AL.ApproximateLocation.getDistanceAdjustment(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
+        self.assertAlmostEqual(expectedResult, result, 3)
 
 
 #  helper methods

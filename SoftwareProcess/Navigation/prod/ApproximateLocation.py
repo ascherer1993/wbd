@@ -6,7 +6,8 @@ Created on Dec 2, 2016
 
 class ApproximateLocation:
      
-     def getDistanceAdjustment(self):
+     @staticmethod
+     def getDistanceAdjustment(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude):
          return 7
      
      def getAzimuthAdjustment(self):

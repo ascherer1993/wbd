@@ -12,12 +12,15 @@ class Angle():
     # Constructor
     def __init__(self):
         self.angle = 0.0
+        self.hemisphere = None
         pass
     
     # Sets angle of Angle object using a float or integer sent to the method
-    def setDegrees(self, degrees = None):
+    def setDegrees(self, degrees = None, hemisphere = None):
         if degrees == None:
             degrees = 0.0
+        if hemisphere != None:
+            self.hemisphere = hemisphere
         # Raises error if the parameter is of the wrong type
         if not isinstance(degrees, float) and not isinstance(degrees, int) :
             raise ValueError("Angle.setDegrees:  The parameter provided was not a integer or a float")
@@ -172,6 +175,8 @@ class Angle():
         return self.angle
         pass
 
+    def getHemisphere(self):
+        return self.hemisphere
 
     def getTangent(self):
         angleInRads = math.pi * (self.angle/180)

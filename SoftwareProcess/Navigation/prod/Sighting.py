@@ -92,7 +92,11 @@ class Sighting():
             return False
         dip = self._calculateDip(self.height, self.horizon)
         refraction = self._calculateRefraction(self.pressure, self.temperature, self.observation)
-        return self.observation.getDegrees() + dip + refraction
+        
+        adjustedAltitude = self.observation.getDegrees() + dip + refraction
+        adjustedAltitude *= 60
+        adjustedAltitude = round(adjustedAltitude, 1) / 60
+        return adjustedAltitude
     
     def _calculateDip(self, height, horizon):
         if not isinstance(height, float) and not isinstance(height, int) :
