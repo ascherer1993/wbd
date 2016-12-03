@@ -186,7 +186,7 @@ class Test(unittest.TestCase):
 
 
     def test200_010_ShouldReturnDistanceAdjustment(self):
-        expectedResult = 20.61666
+        expectedResult = 104.384859
         
         geographicPositionLatitude = Angle.Angle()
         geographicPositionLatitude.setDegrees(200)
@@ -204,8 +204,8 @@ class Test(unittest.TestCase):
         adjustedAltitude = Angle.Angle()
         adjustedAltitude.setDegrees(125)
         
-        result = AL.ApproximateLocation.getDistanceAdjustment(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
-        self.assertAlmostEqual(expectedResult, result, 3)
+        result = AL.ApproximateLocation.getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
+        self.assertAlmostEqual(expectedResult, result.getDegrees(), 2)
 
 
 #  helper methods

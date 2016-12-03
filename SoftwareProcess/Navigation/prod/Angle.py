@@ -181,3 +181,25 @@ class Angle():
     def getTangent(self):
         angleInRads = math.pi * (self.angle/180)
         return math.tan(angleInRads)
+    
+    def getInRadians(self, degreeAngle = None):
+        if degreeAngle == None:
+            return math.pi * (self.angle/180)
+        else:
+            return math.pi * (degreeAngle/180)
+    
+    def getSine(self):
+        angleInRads = math.pi * (self.angle/180)
+        return math.sin(angleInRads)
+    
+    def getCosine(self):
+        angleInRads = math.pi * (self.angle/180)
+        return math.cos(angleInRads)
+    
+    def getArcSine(self):
+        angleInRads = math.pi * (self.angle/180)
+        return math.asin(angleInRads)
+    
+    def getArcCosine(self):
+        angleInRads = math.pi * (self.angle/180)
+        return math.acos(angleInRads)
