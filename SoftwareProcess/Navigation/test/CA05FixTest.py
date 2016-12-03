@@ -186,7 +186,8 @@ class Test(unittest.TestCase):
 
 
     def test200_010_ShouldReturnDistanceAdjustment(self):
-        expectedResult = 104.384859
+        # expectedResult = 104.384859
+        expectedResult = 6363
         
         geographicPositionLatitude = Angle.Angle()
         geographicPositionLatitude.setDegrees(200)
@@ -207,6 +208,41 @@ class Test(unittest.TestCase):
         result = AL.ApproximateLocation.getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
         self.assertAlmostEqual(expectedResult, result.getDegrees(), 2)
 
+
+#    getAzimuthAdjustment 
+#        inputs:
+#            geographicPositionLongitude: Angle object        regression
+#            geographicPositionLatitude: Angle object        regression
+#            assumedLongitude: Angle object        regression
+#            assumedLatitude: Angle object        regression
+#            adjustedAltitude: Angle object        regression
+#            
+#        outputs:
+#            returns:  Angle object representing distance adjustment                             regression
+
+    def test200_020_ShouldReturnDistanceAdjustment(self):
+        expectedResult = 104.384859
+        
+        geographicPositionLatitude = Angle.Angle()
+        geographicPositionLatitude.setDegrees(200)
+        
+        geographicPositionLongitude = Angle.Angle()
+        geographicPositionLongitude.setDegrees(100)
+        
+        assumedLatitude = Angle.Angle()
+        assumedLatitude.setDegrees(150)
+        
+        assumedLongitude = Angle.Angle()
+        assumedLongitude.setDegrees(50)
+    
+        
+        adjustedAltitude = Angle.Angle()
+        adjustedAltitude.setDegrees(125)
+        
+        distanceAdjustment = AL.ApproximateLocation.getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
+        
+        #result = AL.ApproximateLocation.getAzimuthAdjustmentAngle()
+        #self.assertAlmostEqual(expectedResult, result.getDegrees(), 2)
 
 #  helper methods
     def indexInList(self, target, searchList):
