@@ -70,7 +70,7 @@ class Test(unittest.TestCase):
                 pass
 
 
-#==================== Fix.__init__ ====================
+#==================== Fix.getSightings ====================
 # 100 getSightings
 #    Analysis
 #        inputs:
@@ -102,7 +102,7 @@ class Test(unittest.TestCase):
 #+++++++++++++++++++ Happy Path Tests ++++++++++++++++++++  
 #----------      
 
-    def test300_010_ShouldReceiveEmptyParameters(self):
+    def test100_010_ShouldReceiveEmptyParameters(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)
         result = theFix.getSightings()
         
-    def test300_020_ShouldReceiveValidParametersAtEquator(self):
+    def test100_020_ShouldReceiveValidParametersAtEquator(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -122,7 +122,7 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)
         result = theFix.getSightings("0d0.0", "0d0.0")
 
-    def test300_030_ShouldReceiveValidParametersInNHem(self):
+    def test100_030_ShouldReceiveValidParametersInNHem(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -132,7 +132,7 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)
         result = theFix.getSightings("N15d0.0", "0d0.0")
 
-    def test300_040_ShouldReceiveValidParametersInSHem(self):
+    def test100_040_ShouldReceiveValidParametersInSHem(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -142,7 +142,7 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)
         result = theFix.getSightings("S15d0.0", "0d0.0")
         
-    def test300_050_ShouldReceiveValidParametersWithNonZeroLong(self):
+    def test100_050_ShouldReceiveValidParametersWithNonZeroLong(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -153,7 +153,7 @@ class Test(unittest.TestCase):
         result = theFix.getSightings("0d0.0", "15d0.0")
         
         
-    def test300_060_ShouldReturnCorrectValues(self):
+    def test100_060_ShouldReturnCorrectValues(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         expectedResult = ("N29d6.8", "82d52.9")
@@ -164,6 +164,30 @@ class Test(unittest.TestCase):
         result = theFix.getSightings("N27d59.5", "88d33.4")
         self.assertTupleEqual(expectedResult, result, 
                               "Minor:  incorrect return value from getSightings")
+
+
+#==================== Unit tests ====================
+# 200 ApproximateLocation
+
+
+
+#    getDistanceAdjustment
+#        inputs:
+#            geographicPositionLongitude: Angle object        regression
+#            geographicPositionLatitude: Angle object        regression
+#            assumedLongitude: Angle object        regression
+#            assumedLatitude: Angle object        regression
+#            adjustedAltitude: Angle object        regression
+#            
+#        outputs:
+#            returns:  tuple containing assumed values                               regression
+#|           also:    writes "Log file: " + writes all sightings and caluclations to log     new to CA05
+#        Entry criterion:
+#            setSightingsFile must be called first#
+
+
+
+
 
 #  helper methods
     def indexInList(self, target, searchList):
