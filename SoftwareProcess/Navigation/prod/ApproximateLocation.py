@@ -20,18 +20,36 @@ class ApproximateLocation:
         
         distanceAdjustmentAngleValue = adjustedAltitude.getDegrees() - correctedAltitude
         
-#         distanceAdjustmentAngle = Angle.Angle()
-#         distanceAdjustmentAngle.setDegrees(distanceAdjustmentAngleValue)
-        
-        distanceAdjustmentAngleValueInMinutes = round(distanceAdjustmentAngleValue * 60, 0)
-        return distanceAdjustmentAngleValueInMinutes
+        if returnAngle:
+            distanceAdjustmentAngle = Angle.Angle()
+            distanceAdjustmentAngle.setDegrees(distanceAdjustmentAngleValue)
+            return distanceAdjustmentAngle
+        else:
+            distanceAdjustmentAngleValueInMinutes = round(distanceAdjustmentAngleValue * 60, 0)
+            return distanceAdjustmentAngleValueInMinutes
      
     @staticmethod
-    def getAzimuthAdjustmentAngle(geographicPositionLatitude, assumedLatitude, distanceAdjustmentAngle):
+    def getAzimuthAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude):
         azimuthAdjustmentAngle = Angle.Angle()
+        
+        localHourAngle = ApproximateLocation._getLocalHourAngle(geographicPositionLongitude, assumedLongitude)
+        
+        sinlat = Math.sin(geographicPositionLatitude.getInRadians()) * Math.sin(assumedLatitude.getInRadians())
+        coslat = Math.cos(geographicPositionLatitude.getInRadians()) * Math.cos(assumedLatitude.getInRadians()) * Math.cos(Math.radians(localHourAngle))
+        
+        intermediateDistance = sinlat + coslat
+        
+        numerator = Math.sin(geographicPositionLatitude.getInRadians()) - Math.sin(assumedLatitude.getInRadians()) * intermediateDistance
+        denominator = Math.cos(geographicPositionLatitude.getInRadians()) * Math.cos(assumedLatitude.getInRadians())
+        
+        azimuthAdjustmentAngle.setDegrees(Math.degrees(Math.acos(numerator / denominator)))
+        
         return azimuthAdjustmentAngle
     
     @staticmethod
     def _getLocalHourAngle(geographicPositionLongitude, assumedLongitude):
-        return geographicPositionLongitude.getDegrees() - assumedLongitude.getDegrees()
+        returnAngle = Angle.Angle()
+        returnAngle.setDegrees(geographicPositionLongitude.getDegrees())
+        returnAngle.add(assumedLongitude)
+        return returnAngle.getDegrees()
     
