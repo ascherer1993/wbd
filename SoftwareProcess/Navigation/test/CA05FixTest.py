@@ -177,6 +177,10 @@ class Test(unittest.TestCase):
         theFix.setAriesFile(self.ariesFileName)       
         with self.assertRaises(ValueError) as context:
             theFix.getSightings("N110d59.5", "88d33.4")
+        with self.assertRaises(ValueError) as context:
+            theFix.getSightings("N-55d59.5", "88d33.4")
+        with self.assertRaises(ValueError) as context:
+            theFix.getSightings("N-55d59.5", "88d33.4")
 
     def test100_920_ShouldReturnErrorOnInvalidParameters(self):
         testFile = self.mapFileToTest("genericValidStarSightingFile")

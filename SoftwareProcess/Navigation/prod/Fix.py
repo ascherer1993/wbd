@@ -164,7 +164,7 @@ class Fix():
                 assumedLongitude = "0d0.0"
                 assumedLongitudeAngle = Angle.Angle()
                 assumedLongitudeAngle.setDegreesAndMinutes(assumedLongitude)
-                if assumedLongitudeAngle.getDegrees() < 0 or assumedLongitudeAngle.getDegrees() > 90:
+                if assumedLongitudeAngle.getDegrees() < 0 or assumedLongitudeAngle.getDegrees() > 360:
                         raise ValueError("Fix.getSightings:  Your assumed longitude did not follow the requirements.")
         except:
             raise ValueError("Fix.getSightings:  There was an issue with one of the parameters included.")
