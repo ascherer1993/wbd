@@ -179,6 +179,15 @@ class Test(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             result = theFix.getSightings("27d59.5", "88d33.4")
 
+    def test100_910_ShouldReturnErrorOnInvalidAssumedLatitudeNotAtEquator(self):
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        expectedResult = ("N29d6.8", "82d52.9")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)
+        theFix.setAriesFile(self.ariesFileName)       
+        with self.assertRaises(ValueError) as context:
+            result = theFix.getSightings("N0d0.0", "88d33.4")
 #==================== Unit tests ====================
 # 200 ApproximateLocation
 # These most likely will not have sad cases because they should all be internal and always send the right info

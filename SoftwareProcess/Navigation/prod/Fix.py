@@ -141,7 +141,9 @@ class Fix():
             if assumedLatitude != None:
                 if assumedLatitude.lower()[0] == 'n' or assumedLatitude.lower()[0] == 's':
                     assumedLatitudeAngle = Angle.Angle()
-                    assumedLatitudeAngle.setDegrees(0, assumedLatitude[0])
+                    if assumedLatitude[1:] == "0d0.0" or assumedLatitude[1:] == "0.0d0.0" or assumedLatitude[1:] == "0.0d0" or assumedLatitude[1:] == "0d0":
+                        raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
+                    assumedLatitudeAngle.setHemisphere(assumedLatitude[0])
                     assumedLatitudeAngle.setDegreesAndMinutes(assumedLatitude[1:])
                 else:
                     if assumedLatitude[0] != '0':
