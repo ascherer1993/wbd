@@ -14,10 +14,11 @@ class ApproximateLocation:
         
         distanceAdjustmentAngleValue = adjustedAltitude.getDegrees() - correctedAltitude
         
-        distanceAdjustmentAngle = Angle.Angle()
-        distanceAdjustmentAngle.setDegrees(distanceAdjustmentAngleValue)
+#         distanceAdjustmentAngle = Angle.Angle()
+#         distanceAdjustmentAngle.setDegrees(distanceAdjustmentAngleValue)
         
-        return distanceAdjustmentAngle
+        distanceAdjustmentAngleValueInMinutes = round(distanceAdjustmentAngleValue * 60, 0)
+        return distanceAdjustmentAngleValueInMinutes
      
     @staticmethod
     def getAzimuthAdjustmentAngle():
