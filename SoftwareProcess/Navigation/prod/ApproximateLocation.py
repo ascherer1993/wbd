@@ -8,9 +8,15 @@ import math as Math
 
 class ApproximateLocation:
     @staticmethod
-    def getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude):
+    def getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude, returnAngle = False):
         localHourAngle = ApproximateLocation._getLocalHourAngle(geographicPositionLongitude, assumedLongitude)
-        correctedAltitude = ApproximateLocation._getCorrectedAltitude(geographicPositionLatitude, assumedLatitude, localHourAngle)
+        
+        sinlat = Math.sin(geographicPositionLatitude.getInRadians()) * Math.sin(assumedLatitude.getInRadians())
+        coslat = Math.cos(geographicPositionLatitude.getInRadians()) * Math.cos(assumedLatitude.getInRadians()) * Math.cos(Math.radians(localHourAngle))
+        
+        intermediateDistance = sinlat + coslat
+        
+        correctedAltitude = Math.degrees(Math.asin(intermediateDistance))
         
         distanceAdjustmentAngleValue = adjustedAltitude.getDegrees() - correctedAltitude
         
@@ -21,16 +27,11 @@ class ApproximateLocation:
         return distanceAdjustmentAngleValueInMinutes
      
     @staticmethod
-    def getAzimuthAdjustmentAngle():
-        return 7
+    def getAzimuthAdjustmentAngle(geographicPositionLatitude, assumedLatitude, distanceAdjustmentAngle):
+        azimuthAdjustmentAngle = Angle.Angle()
+        return azimuthAdjustmentAngle
     
     @staticmethod
     def _getLocalHourAngle(geographicPositionLongitude, assumedLongitude):
         return geographicPositionLongitude.getDegrees() - assumedLongitude.getDegrees()
     
-    @staticmethod
-    def _getCorrectedAltitude(geographicPositionLatitude, assumedLatitude, LHA):
-        sinlat = Math.sin(geographicPositionLatitude.getInRadians()) * Math.sin(assumedLatitude.getInRadians())
-        coslat = Math.cos(geographicPositionLatitude.getInRadians()) * Math.cos(assumedLatitude.getInRadians()) * Math.cos(Math.radians(LHA))
-        
-        return Math.degrees(Math.asin(sinlat + coslat))
