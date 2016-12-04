@@ -133,6 +133,10 @@ class Fix():
         if self.SightingList == None or self.AriesEntriesList == None or self.StarsList == None:
             raise ValueError("Fix.getSightings:  The sightings file, aries file, or star file has not been set.")
         
+        if assumedLatitude == None:
+            assumedLatitude = "0d0.0"
+        if assumedLongitude == None:
+            assumedLongitude = "0d0.0"
         assumedLatitudeAngle = None
         assumedLongitudeAngle = None
         returnTuple = ("0d0.0", "0d0.0")
@@ -145,16 +149,23 @@ class Fix():
                         raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
                     assumedLatitudeAngle.setHemisphere(assumedLatitude[0])
                     assumedLatitudeAngle.setDegreesAndMinutes(assumedLatitude[1:])
+                    if assumedLatitudeAngle.getDegrees() < 0 or assumedLatitudeAngle.getDegrees() > 90:
+                        raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
                 else:
                     if assumedLatitude[0] != '0':
                         raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
                     else:
                         assumedLatitudeAngle = Angle.Angle()
                         assumedLatitudeAngle.setDegreesAndMinutes(assumedLatitude)
+                        if assumedLatitudeAngle.getDegrees() < 0 or assumedLatitudeAngle.getDegrees() > 90:
+                            raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
                         
-            if assumedLatitude != None:
+            if assumedLongitude != None:
+                assumedLongitude = "0d0.0"
                 assumedLongitudeAngle = Angle.Angle()
                 assumedLongitudeAngle.setDegreesAndMinutes(assumedLongitude)
+                if assumedLongitudeAngle.getDegrees() < 0 or assumedLongitudeAngle.getDegrees() > 90:
+                        raise ValueError("Fix.getSightings:  Your assumed longitude did not follow the requirements.")
         except:
             raise ValueError("Fix.getSightings:  There was an issue with one of the parameters included.")
         
@@ -197,7 +208,8 @@ class Fix():
                 
                 star = self.StarsList.getStar(sighting)
                 
-                geographicPositionLatitude = star.getGeographicPositionLatitude().getString()
+                geographicPositionLatitude = star.getGeographicPositionLatitude()
+                geographicPositionLatitudeString = geographicPositionLatitude.getString()
                 siderealHourAngle = star.getSiderealHourAngle() 
                 GWH = self.AriesEntriesList.getGreenWichHourAngle(sighting)
                 geographicPositionLongitudeInDecimal = siderealHourAngle.getDegrees() + GWH.getDegrees()
@@ -206,7 +218,7 @@ class Fix():
                 geographicPositionLongitudeString = geographicPositionLongitude.getString()
                 
                 if assumedLatitude == None and assumedLongitude == None:
-                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString)
+                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitudeString + "\t" + geographicPositionLongitudeString)
                 
                 else:
                     distanceAdjustmentAngle = ApproximateLocation.ApproximateLocation.getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
@@ -216,7 +228,7 @@ class Fix():
                     latitudeTotal = latitudeTotal + (distanceAdjustmentAngle * Math.cos(azimuthAdjustment.getInRadians()))
                     longitudeTotal = longitudeTotal + (distanceAdjustmentAngle * Math.sin(azimuthAdjustment.getInRadians()))
                 
-                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString +
+                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitudeString + "\t" + geographicPositionLongitudeString +
                                                      "\t" + assumedLatitude.getString() + "\t" + assumedLongitude.getString() + "\t" + str(distanceAdjustmentAngle).strip() + "\t" + azimuthAdjustmentString)
                     
             except:
@@ -231,9 +243,10 @@ class Fix():
             approximateLongitude.setDegrees(approximateLongitudeValue)
                 
         self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings + self.SightingList.getFailedLoadCount()))
-        #self.logFileInstance.writeToLogEntry("Approximate latitude:\t" + approximateLatitude.getString() + "\t" + approximateLongitude.getString())
+        
         
         if assumedLatitude != None and assumedLongitude != None:
+            self.logFileInstance.writeToLogEntry("Approximate latitude:\t" + approximateLatitude.getString() + "\t" + approximateLongitude.getString())
             return (approximateLatitude.getString(), approximateLongitude.getString())
         
         pass  

@@ -112,7 +112,7 @@ class Test(unittest.TestCase):
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
-        result = theFix.getSightings()
+        theFix.getSightings()
         
     def test100_020_ShouldReceiveValidParametersAtEquator(self):
         'parse sighting file that valid tags'
@@ -122,7 +122,7 @@ class Test(unittest.TestCase):
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
-        result = theFix.getSightings("0d0.0", "0d0.0")
+        theFix.getSightings("0d0.0", "0d0.0")
 
     def test100_030_ShouldReceiveValidParametersInNHem(self):
         'parse sighting file that valid tags'
@@ -132,7 +132,7 @@ class Test(unittest.TestCase):
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
-        result = theFix.getSightings("N15d0.0", "0d0.0")
+        theFix.getSightings("N15d0.0", "0d0.0")
 
     def test100_040_ShouldReceiveValidParametersInSHem(self):
         'parse sighting file that valid tags'
@@ -142,9 +142,9 @@ class Test(unittest.TestCase):
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
-        result = theFix.getSightings("S15d0.0", "0d0.0")
+        theFix.getSightings("S15d0.0", "0d0.0")
         
-    def test100_050_ShouldReceiveValidParametersWithNonZeroLong(self):
+    def test100_050_ShouldReceiveValidParametersWithNonZeroLat(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
         #expectedResult = ("0d0.0", "0d0.0")
@@ -152,14 +152,14 @@ class Test(unittest.TestCase):
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
-        result = theFix.getSightings("0d0.0", "15d0.0")
+        theFix.getSightings("0d0.0", "15d0.0")
         
         
     def test100_060_ShouldReturnCorrectValues(self):
         'parse sighting file that valid tags'
         testFile = self.mapFileToTest("genericValidStarSightingFile")
-        expectedResult = ("N29d6.8", "82d52.9")
-        theFix = F.Fix()
+        expectedResult = ("N29d6.8", "82d52.9") #This might be the wrong tes data. I really don't know since I just used what was on the excel so the files might be wrong for this data. I didn't have time to calculate
+        theFix = F.Fix("testFile.txt")
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)
@@ -169,25 +169,33 @@ class Test(unittest.TestCase):
 
 
 
-    def test100_910_ShouldReturnErrorOnInvalidAssumedLatitudeAtEquator(self):
+    def test100_910_ShouldReturnErrorOnBadParamtersByRange(self):
         testFile = self.mapFileToTest("genericValidStarSightingFile")
-        expectedResult = ("N29d6.8", "82d52.9")
         theFix = F.Fix()
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)       
         with self.assertRaises(ValueError) as context:
-            result = theFix.getSightings("27d59.5", "88d33.4")
+            theFix.getSightings("N110d59.5", "88d33.4")
 
-    def test100_910_ShouldReturnErrorOnInvalidAssumedLatitudeNotAtEquator(self):
+    def test100_920_ShouldReturnErrorOnInvalidParameters(self):
         testFile = self.mapFileToTest("genericValidStarSightingFile")
-        expectedResult = ("N29d6.8", "82d52.9")
         theFix = F.Fix()
         theFix.setSightingFile(testFile)
         theFix.setStarFile(self.starFileName)
         theFix.setAriesFile(self.ariesFileName)       
         with self.assertRaises(ValueError) as context:
-            result = theFix.getSightings("N0d0.0", "88d33.4")
+            theFix.getSightings("N0d0.0", "88d33.4")
+        with self.assertRaises(ValueError) as context:
+            theFix.getSightings("27d59.5", "88d33.4")
+            
+    def test100_930_ShouldReturnErrorOnFileNotSet(self):
+        testFile = self.mapFileToTest("genericValidStarSightingFile")
+        theFix = F.Fix()
+        theFix.setSightingFile(testFile)
+        theFix.setStarFile(self.starFileName)    
+        with self.assertRaises(ValueError) as context:
+            result = theFix.getSightings("0d0.0", "88d33.4")
 #==================== Unit tests ====================
 # 200 ApproximateLocation
 # These most likely will not have sad cases because they should all be internal and always send the right info
