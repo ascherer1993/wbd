@@ -11,6 +11,7 @@ import Navigation.prod.LogFile as LogFile
 import Navigation.prod.Angle as Angle
 import Navigation.prod.ApproximateLocation as ApproximateLocation
 import os.path
+import math as Math
 
 class Fix():
     def __init__(self, logFile = None):
@@ -134,6 +135,7 @@ class Fix():
         
         assumedLatitudeAngle = None
         assumedLongitudeAngle = None
+        returnTuple = ("0d0.0", "0d0.0")
         
         try:
             if assumedLatitude != None:
@@ -157,19 +159,23 @@ class Fix():
             
         try:
             
-            self.writeSightingsToLog(self.SightingList.getSightingsList(), assumedLatitudeAngle, assumedLongitudeAngle)
+            returnTuple = self.writeSightingsToLog(self.SightingList.getSightingsList(), assumedLatitudeAngle, assumedLongitudeAngle)
             
         except:
             raise ValueError("Fix.getSightings:  There was a problem loading in the file.")
         
         self.logFileInstance.writeToLogEntry("End of sighting file:\t" + self.SightingList.getFileName())
-        approximateLatitude = "0d0.0"
-        approximateLongitude = "0d0.0"
-        return (approximateLatitude, approximateLongitude)
+        return returnTuple
         pass
     
     def writeSightingsToLog(self, sightings, assumedLatitude = None, assumedLongitude = None):
         failedSightings = 0
+        approximateLatitude = Angle.Angle()
+        approximateLongitude = Angle.Angle()
+        
+        latitudeTotal = 0
+        longitudeTotal = 0
+        
         for sighting in sightings:
             try:
                 
@@ -197,7 +203,7 @@ class Fix():
                 geographicPositionLongitude.setDegrees(geographicPositionLongitudeInDecimal)
                 geographicPositionLongitudeString = geographicPositionLongitude.getString()
                 
-                if assumedLatitude == None:
+                if assumedLatitude == None and assumedLongitude == None:
                     self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString)
                 
                 else:
@@ -205,11 +211,27 @@ class Fix():
                     azimuthAdjustment = ApproximateLocation.ApproximateLocation.getAzimuthAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
                     azimuthAdjustmentString = azimuthAdjustment.getString().strip()
                 
+                    latitudeTotal = latitudeTotal + (distanceAdjustmentAngle * Math.cos(azimuthAdjustment.getInRadians()))
+                    longitudeTotal = longitudeTotal + (distanceAdjustmentAngle * Math.sin(azimuthAdjustment.getInRadians()))
+                
                     self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString +
                                                      "\t" + assumedLatitude.getString() + "\t" + assumedLongitude.getString() + "\t" + str(distanceAdjustmentAngle).strip() + "\t" + azimuthAdjustmentString)
                     
             except:
                 failedSightings = failedSightings + 1
+        
+        
+        if assumedLatitude != None and assumedLongitude != None:
+            approximateLatitudeValue = assumedLatitude.getDegrees() + latitudeTotal/60
+            approximateLatitude.setDegrees(approximateLatitudeValue, assumedLatitude.getHemisphere())
+            
+            approximateLongitudeValue = assumedLongitude.getDegrees() + longitudeTotal/60
+            approximateLongitude.setDegrees(approximateLongitudeValue)
                 
         self.logFileInstance.writeToLogEntry("Sighting errors:\t" + str(failedSightings + self.SightingList.getFailedLoadCount()))
+        #self.logFileInstance.writeToLogEntry("Approximate latitude:\t" + approximateLatitude.getString() + "\t" + approximateLongitude.getString())
+        
+        if assumedLatitude != None and assumedLongitude != None:
+            return (approximateLatitude.getString(), approximateLongitude.getString())
+        
         pass  

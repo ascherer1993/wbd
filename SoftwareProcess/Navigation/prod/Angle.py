@@ -97,6 +97,9 @@ class Angle():
             self.angle = floatedDegrees + minuteInDecimal
         return self.angle
     
+    def setHemisphere(self, hemisphere):
+        self.hemisphere = hemisphere
+        return True
     
     # Adds an angle to this angle object, stores the value, and returns the result
     def add(self, angle= None):
