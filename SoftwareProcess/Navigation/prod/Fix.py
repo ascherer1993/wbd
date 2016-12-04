@@ -9,6 +9,7 @@ import Navigation.prod.AriesEntriesList as AriesEntriesList
 import Navigation.prod.StarsList as StarsList
 import Navigation.prod.LogFile as LogFile
 import Navigation.prod.Angle as Angle
+import Navigation.prod.ApproximateLocation as ApproximateLocation
 import os.path
 
 class Fix():
@@ -131,9 +132,32 @@ class Fix():
         if self.SightingList == None or self.AriesEntriesList == None or self.StarsList == None:
             raise ValueError("Fix.getSightings:  The sightings file, aries file, or star file has not been set.")
         
+        assumedLatitudeAngle = None
+        assumedLongitudeAngle = None
+        
+        try:
+            if assumedLatitude != None:
+                if assumedLatitude.lower()[0] == 'n' or assumedLatitude.lower()[0] == 's':
+                    assumedLatitudeAngle = Angle.Angle()
+                    assumedLatitudeAngle.setDegrees(0, assumedLatitude[0])
+                    assumedLatitudeAngle.setDegreesAndMinutes(assumedLatitude[1:])
+                else:
+                    if assumedLatitude[0] != '0':
+                        raise ValueError("Fix.getSightings:  Your assumed latitude did not follow the requirements.")
+                    else:
+                        assumedLatitudeAngle = Angle.Angle()
+                        assumedLatitudeAngle.setDegreesAndMinutes(assumedLatitude)
+                        
+            if assumedLatitude != None:
+                assumedLongitudeAngle = Angle.Angle()
+                assumedLongitudeAngle.setDegreesAndMinutes(assumedLongitude)
+        except:
+            raise ValueError("Fix.getSightings:  There was an issue with one of the parameters included.")
+        
+            
         try:
             
-            self.writeSightingsToLog(self.SightingList.getSightingsList())
+            self.writeSightingsToLog(self.SightingList.getSightingsList(), assumedLatitudeAngle, assumedLongitudeAngle)
             
         except:
             raise ValueError("Fix.getSightings:  There was a problem loading in the file.")
@@ -144,7 +168,7 @@ class Fix():
         return (approximateLatitude, approximateLongitude)
         pass
     
-    def writeSightingsToLog(self, sightings):
+    def writeSightingsToLog(self, sightings, assumedLatitude = None, assumedLongitude = None):
         failedSightings = 0
         for sighting in sightings:
             try:
@@ -172,7 +196,17 @@ class Fix():
                 geographicPositionLongitude = Angle.Angle()
                 geographicPositionLongitude.setDegrees(geographicPositionLongitudeInDecimal)
                 geographicPositionLongitudeString = geographicPositionLongitude.getString()
-                self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString)
+                
+                if assumedLatitude == None:
+                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString)
+                
+                else:
+                    distanceAdjustmentAngle = ApproximateLocation.ApproximateLocation.getDistanceAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
+                    azimuthAdjustment = ApproximateLocation.ApproximateLocation.getAzimuthAdjustmentAngle(geographicPositionLatitude, geographicPositionLongitude, assumedLatitude, assumedLongitude, adjustedAltitude)
+                    azimuthAdjustmentString = azimuthAdjustment.getString().strip()
+                
+                    self.logFileInstance.writeToLogEntry(body + "\t" + date + "\t" + time + "\t" + adjustedAltitudeString + "\t" + geographicPositionLatitude + "\t" + geographicPositionLongitudeString +
+                                                     "\t" + assumedLatitude.getString() + "\t" + assumedLongitude.getString() + "\t" + str(distanceAdjustmentAngle).strip() + "\t" + azimuthAdjustmentString)
                     
             except:
                 failedSightings = failedSightings + 1

@@ -170,6 +170,7 @@ class Test(unittest.TestCase):
 
 #==================== Unit tests ====================
 # 200 ApproximateLocation
+# These most likely will not have sad cases because they should all be internal and always send the right info
 
 
 

@@ -160,6 +160,8 @@ class Angle():
         decimalInMinuteForm = round(float('.' + degreesArray[1]) * 60, 1)
         # Constructs string
         returnString = str(degreesArray[0]) + "d" + str(decimalInMinuteForm)
+        if self.hemisphere != None:
+            returnString = returnString + self.hemisphere
         return returnString
         
         pass
